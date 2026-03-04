@@ -22,7 +22,7 @@ export default function Home() {
       {/* <p className="h2 text-center">Benvenuto nel tuo taccuino di viaggio!</p> */}
 
       <Gallery images={images} />
-      <Container className="page">
+      <Container className="my-5">
         <figure className="text-center">
           <blockquote className="blockquote fs-1 handwritten">
             <q>
@@ -38,7 +38,7 @@ export default function Home() {
       {/* METTERE BACKGROUND TEMPIO VALLE */}
       {/* CONTAINER CHE RIMANDA ALLA PAGINA DEI MONUMENTI */}
       <Link to="/login" style={{ textDecoration: "none", color: "inherit" }}>
-        <Container className="text-center clickable-container">
+        <Container className="text-center clickable-container my-5">
           <p className="fs-1">Scopri dove ha inizio il tuo prossimo viaggio.</p>
           <p className="fs-4"> Ogni luogo è una pagina da scrivere.</p>
         </Container>
@@ -46,7 +46,7 @@ export default function Home() {
 
       {/* CONTAINER CHE RIMANDA AL LOGIN */}
       <Link to="/login" style={{ textDecoration: "none", color: "inherit" }}>
-        <Container className="text-center clickable-container">
+        <Container className="text-center clickable-container my-5">
           <p className="fs-1">Scrivi i tuoi ricordi, un luogo alla volta.</p>
           <p className="fs-4">Accedi per iniziare.</p>
         </Container>

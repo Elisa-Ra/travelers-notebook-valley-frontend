@@ -1,3 +1,4 @@
+/* NAVBAR */
 .navbar-color {
   background-color: #3d2b1f !important;
   color: #f2e8cf !important;
@@ -12,17 +13,12 @@
   color: #c6a667 !important;
 }
 
+/* TESTI */
 .handwritten {
   font-family: "Caveat", cursive;
+  color: black;
 }
-
-.page {
-  background-image: url("/src/assets/page-bg-or.svg");
-  background-repeat: no-repeat;
-  background-position: bottom center;
-  min-height: 40vh;
-}
-
+/* FORM */
 .page-bg {
   background-size: cover;
   background-position: bottom center;
@@ -81,7 +77,7 @@
   transform: scale(1.05);
 } */
 
-/* CONTAINER DELLA HOME CHE REINDIRIZZA AL LOGIN */
+/* CONTAINERS CLICCABILI DELLA HOME */
 .clickable-container {
   cursor: pointer;
   transition: transform 0.2s ease;
