@@ -6,3 +6,17 @@
   color: #4a3f35;
   font-family: "EB Garamond", serif;
 }
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+.page-background {
+  min-height: 100vh;
+  background-image: url("/page-bg-or.svg");
+  background-size: cover;
+  background-position: bottom center;
+  background-repeat: no-repeat;
+  padding-bottom: 200px; /* spazio per il disegno */
+}
