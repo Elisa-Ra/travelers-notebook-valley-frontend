@@ -1,42 +1,82 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.navbar-color {
+  background-color: #3d2b1f !important;
+  color: #f2e8cf !important;
+}
+.navbar-color .navbar-nav .nav-link,
+.navbar-color .navbar-brand {
+  color: #f2e8cf !important;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.navbar-color .navbar-nav .nav-link:hover,
+.navbar-color .navbar-brand:hover {
+  color: #c6a667 !important;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.handwritten {
+  font-family: "Caveat", cursive;
+}
+
+.page {
+  background-image: url("/src/assets/page-bg-or.svg");
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  min-height: 40vh;
+}
+
+.page-bg {
+  background-size: cover;
+  background-position: bottom center;
+  background-repeat: no-repeat;
+  width: 90%;
+  max-width: 420px;
+  min-height: 70vh;
+  max-height: 80vh;
+  margin: 5vh auto;
+  padding: 30px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  overflow-y: auto; /* aggiunge lo scroll se il contenuto straborda */
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .page-bg {
+    padding: 24px;
+    max-width: 340px;
+    min-height: 65vh;
+    max-height: 80vh;
   }
-  to {
-    transform: rotate(360deg);
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .page-bg {
+    max-width: 380px;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* PER IL COMPONENT GALLERY */
+/* .gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  padding: 20px 0;
 }
 
-.card {
-  padding: 2em;
+.gallery-item {
+  overflow: hidden;
+  border-radius: 12px;
 }
 
-.read-the-docs {
-  color: #888;
+.gallery-item img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
 }
+
+.gallery-item:hover img {
+  transform: scale(1.05);
+} */
