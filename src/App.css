@@ -1,6 +1,12 @@
+.page-background {
+  background-image: url("/page-bg-or.svg");
+  background-size: cover;
+  background-position: bottom center;
+  background-repeat: no-repeat;
+}
 /* NAVBAR */
 .navbar-color {
-  background-color: #3d2b1f !important;
+  background-color: #6b6a4f !important;
   color: #f2e8cf !important;
 }
 .navbar-color .navbar-nav .nav-link,
@@ -137,7 +143,7 @@
   background: radial-gradient(ellipse at center, #ce0000 0%, #a60000 100%);
   border: 7px double #c50000;
   border-radius: 50%;
-  padding: 20px 5px;
+  padding: 20px 10px;
   color: white;
   box-shadow:
     inset 0 1px 2px rgba(0, 0, 0, 0.5),
@@ -152,4 +158,10 @@
 
 .wax:active {
   transform: scale(0.95);
+}
+
+/* PROFILO PERSONALE */
+.profile {
+  min-height: 350px;
+  padding-top: 25px;
 }

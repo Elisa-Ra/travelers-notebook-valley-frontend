@@ -18,7 +18,7 @@ export default function Profilo() {
   useEffect(() => {
     const token = localStorage.getItem("token")
 
-    // se non c’è token → torna al login
+    // se il token non è presente, reindirizzo alla pagina di login
     if (!token) {
       navigate("/login")
       return
@@ -54,31 +54,35 @@ export default function Profilo() {
   if (isError) return <Error />
 
   return (
-    <Container fluid className="profile-layout">
+    <Container fluid className="profile-layout mt-3">
       <Row className="justify-content-center">
-        <Col xs={12} md={6} className="handwritten profile-card">
-          <h2 className="mb-4">Il mio profilo</h2>
-
-          <p>
-            <strong>Username:</strong> {user.username}
-          </p>
-          <p>
-            <strong>Email:</strong> {user.email}
-          </p>
-          <p>
-            <strong>Ruolo:</strong> {user.ruolo}
-          </p>
-          <p>
-            <strong>Registrato il:</strong>{" "}
-            {new Date(user.dataRegistrazione).toLocaleDateString()}
-          </p>
-
+        <Col xs={12} sm={4} md={4} lg={4} className="page-background profile">
+          {/* Se l'avatar esiste, lo mostro */}
           {user.avatar && (
-            <div className="mt-3">
-              <img src={user.avatar} alt="Avatar" className="avatar-img" />
+            <div className="my-3 text-center">
+              <img
+                src={user.avatar}
+                alt="Avatar"
+                className="avatar-img border border-black"
+              />
             </div>
           )}
 
+          <p className="handwritten">
+            <strong>Username:</strong> {user.username}
+          </p>
+          <p className="handwritten">
+            <strong>Email:</strong> {user.email}
+          </p>
+
+          <p className="handwritten">
+            <strong>Registrato il:</strong>{" "}
+            {new Date(user.dataRegistrazione).toLocaleDateString()}
+          </p>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
           <button className="wax mt-4" onClick={() => navigate("/")}>
             Torna al taccuino
           </button>

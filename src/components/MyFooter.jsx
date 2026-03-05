@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container"
 const MyFooter = () => {
   return (
     <>
-      <footer className=" navbar-color mt-1 py-2 w-100">
+      <footer className=" navbar-color mt-1 pt-2 w-100">
         <Container className="text-center">
           <small>
             {" "}
