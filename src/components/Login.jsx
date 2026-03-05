@@ -34,10 +34,11 @@ export default function Login() {
       console.log("Login riuscito:", data)
 
       // Salvo il token
-      localStorage.setItem("token", data.token)
+      localStorage.setItem("token", data.accessToken)
 
-      // Reindirizzo alla home
-      navigate("/home")
+      // Reindirizzo al profilo
+
+      navigate("/profilo")
     } catch (error) {
       console.log(error)
       setIsError(true)
@@ -81,6 +82,12 @@ export default function Login() {
           <Button variant="primary" type="submit">
             Accedi
           </Button>
+          <p className="handwritten mt-3">
+            Non hai ancora un taccuino?
+            <span className="link" onClick={() => navigate("/register")}>
+              Registrati qui
+            </span>
+          </p>
         </Form>
       </div>
     </div>
