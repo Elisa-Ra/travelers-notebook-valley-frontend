@@ -49,23 +49,24 @@ export default function Login() {
 
   return (
     <div className="login-page">
+      {isLoading && <Loading />}
+      {isError && <Error />}
       <div
-        className="page-bg"
+        className="page-bg pt-5 px-4"
         style={{
           backgroundImage: `url(${bg})`,
         }}
       >
-        {isLoading && <Loading />}
-        {isError && <Error />}
-        <p className="h3">Il mio taccuino del viaggiatore</p>
-        <Form className="handwritten form-content" onSubmit={handleSubmit}>
+        <p className="h3 text-center mb-5">Il mio taccuino del viaggiatore</p>
+        <Form className=" form-content flex-grow-1" onSubmit={handleSubmit}>
           <Form.Group className="mb-3 fs-4" controlId="formBasicEmail">
-            <Form.Label>Email</Form.Label>
+            <Form.Label>Posta elettronica</Form.Label>
             <Form.Control
               type="email"
               placeholder="Inserisci email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className="handwritten"
             />
           </Form.Group>
 
@@ -76,19 +77,23 @@ export default function Login() {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className="handwritten"
             />
           </Form.Group>
 
           <Button variant="primary" type="submit">
             Accedi
           </Button>
-          <p className="handwritten mt-3">
-            Non hai ancora un taccuino?
-            <span className="link" onClick={() => navigate("/register")}>
-              Registrati qui
-            </span>
-          </p>
         </Form>
+        <p className="handwritten mt-3 text-center">
+          Non hai ancora un taccuino?
+          <span
+            className="link ms-2 pointer oro"
+            onClick={() => navigate("/register")}
+          >
+            Parti da qui
+          </span>
+        </p>
       </div>
     </div>
   )

@@ -7,7 +7,15 @@ const MyFooter = () => {
         <Container className="text-center">
           <small>
             {" "}
-            2026 Traveller's Notebook - Valley Edition © By Elisa Raeli
+            2026 Traveller's Notebook - Valley Edition © By{" "}
+            <a
+              href="https://github.com/Elisa-Ra"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link"
+            >
+              Elisa Raeli{" "}
+            </a>
           </small>
         </Container>
       </footer>

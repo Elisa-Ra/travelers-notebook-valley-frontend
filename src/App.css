@@ -1,9 +1,21 @@
+/* BACKGROUND CON LA TEXTURE PAGINA ORIZZONTALE */
 .page-background {
   background-image: url("/page-bg-or.svg");
   background-size: cover;
   background-position: bottom center;
   background-repeat: no-repeat;
 }
+.page-background-v {
+  background-image: url("/page-bg.svg");
+  background-size: cover;
+  background-position: bottom center;
+  background-repeat: no-repeat;
+}
+/* CURSOR POINTER */
+.pointer {
+  cursor: pointer;
+}
+
 /* NAVBAR */
 .navbar-color {
   background-color: #6b6a4f !important;
@@ -24,24 +36,38 @@
   font-family: "Caveat", cursive;
   color: black;
 }
+/* testo colore oro */
+.oro {
+  color: #a68b54;
+  font-weight: 600;
+}
+
+.bg-oro {
+  background-color: #a68b54;
+}
 /* FORM */
+/* form login */
 .page-bg {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-size: cover;
-  background-position: bottom center;
+  background-position: top center;
   background-repeat: no-repeat;
   width: 90%;
   max-width: 420px;
-  min-height: 60vh;
+  min-height: 40vh;
   max-height: 90vh;
   margin: 5vh auto;
-  padding: 30px;
-  padding-top: 20px;
-  padding-bottom: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   overflow-y: auto; /* scroll se il contenuto straborda */
 }
-/* FORM DI REGISTRAZIONE */
+.page-bg p {
+  line-height: 1.4;
+}
+
+/* form registrazione */
 .leather-bg {
   background-size: cover;
   background-position: bottom center;
@@ -56,7 +82,7 @@
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
-/* MESSAGGI DI ERRORE FORM DI REGISTRAZIONE */
+/* MESSAGGI DI ERRORE  */
 .messages-row {
   display: flex;
   justify-content: center;
@@ -110,7 +136,9 @@
   transform: scale(1.05);
 } */
 
-/* CONTAINERS CLICCABILI DELLA HOME */
+/* HOME */
+
+/* Container cliccabili */
 .clickable-container {
   cursor: pointer;
   transition: transform 0.2s ease;
@@ -121,21 +149,6 @@
 }
 
 /* BUTTON IN STILE CERALACCA */
-.seal-button {
-  background: radial-gradient(circle at 30% 30%, #b22222, #7a0f0f);
-  border-radius: 50%;
-  padding: 18px 28px;
-  color: #fff;
-  font-family: "EB Garamond", serif;
-  border: none;
-  box-shadow:
-    inset 0 2px 4px rgba(0, 0, 0, 0.4),
-    0 4px 8px rgba(0, 0, 0, 0.3);
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease;
-}
-
 .wax {
   background: #ce0000;
   background: -moz-radial-gradient(center, #ce0000 0%, #a60000 100%);
@@ -164,4 +177,8 @@
 .profile {
   min-height: 350px;
   padding-top: 25px;
+}
+
+/* PAGINA ESPLORA */
+.lista-monumenti {
 }
