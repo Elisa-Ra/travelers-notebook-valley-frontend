@@ -1,5 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { loginSuccess } from "../redux/store/authSlice"
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
 import Loading from "./Loading"
@@ -8,19 +10,24 @@ import bg from "../assets/page-bg.svg"
 
 export default function Login() {
   const navigate = useNavigate()
+  const dispatch = useDispatch() // per inviare azioni a redux
 
+  // stati locali collegati al form
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
+  // gli stati per il loader e il messaggio di errore
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
 
   const handleSubmit = async (e) => {
+    // evito il comportamento di default del form, ovvero ricaricare la pagina
     e.preventDefault()
 
     setIsLoading(true)
     setIsError(false)
 
+    // chiamata di login al backend
     try {
       const res = await fetch("http://localhost:3001/auth/login", {
         method: "POST",
@@ -28,16 +35,22 @@ export default function Login() {
         body: JSON.stringify({ email, password }),
       })
 
+      // se la risposta non va bene, messaggio di errore
       if (!res.ok) throw new Error("Ops, c'è stato un errore nel login.")
 
+      // se tutto va bene, prendo i dati
       const data = await res.json()
       console.log("Login riuscito:", data)
 
-      // Salvo il token
-      localStorage.setItem("token", data.accessToken)
+      // Aggiorno redux con il token e l'utente
+      dispatch(
+        loginSuccess({
+          token: data.accessToken,
+          user: data.user,
+        }),
+      )
 
-      // Reindirizzo al profilo
-
+      // reindirizzo al profilo
       navigate("/profilo")
     } catch (error) {
       console.log(error)
@@ -53,12 +66,11 @@ export default function Login() {
       {isError && <Error />}
       <div
         className="page-bg pt-5 px-4"
-        style={{
-          backgroundImage: `url(${bg})`,
-        }}
+        style={{ backgroundImage: `url(${bg})` }}
       >
         <p className="h3 text-center mb-5">Il mio taccuino del viaggiatore</p>
-        <Form className=" form-content flex-grow-1" onSubmit={handleSubmit}>
+
+        <Form className="form-content flex-grow-1" onSubmit={handleSubmit}>
           <Form.Group className="mb-3 fs-4" controlId="formBasicEmail">
             <Form.Label>Posta elettronica</Form.Label>
             <Form.Control
@@ -85,6 +97,7 @@ export default function Login() {
             Accedi
           </Button>
         </Form>
+
         <p className="handwritten mt-3 text-center">
           Non hai ancora un taccuino?
           <span

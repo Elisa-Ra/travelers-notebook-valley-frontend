@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
-import { Container, Row, Col, ListGroup, Card } from "react-bootstrap"
+import { Container, Row, Col, ListGroup, Card, Badge } from "react-bootstrap"
+import { BsCompassFill } from "react-icons/bs"
 
 export default function Esplora() {
   const [monumenti, setMonumenti] = useState([])
@@ -15,12 +16,14 @@ export default function Esplora() {
       try {
         const res = await fetch("http://localhost:3001/monumento")
         if (!res.ok)
-          throw new Error("Ops, si è verificato un errore nel caricamento!")
+          throw new Error(
+            "Ops, si è verificato un errore nel caricamento dei monumenti!",
+          )
 
         const data = await res.json()
         setMonumenti(data)
 
-        // Seleziono il primo
+        // Seleziono il primo di default
         if (data.length > 0) setSelected(data[0])
       } catch (error) {
         console.log(error)
@@ -34,11 +37,11 @@ export default function Esplora() {
   }, [])
 
   return (
-    <Container fluid className="my-3">
+    <Container fluid className="my-3 px-5">
       <Row>
         {/* COLONNA SINISTRA — Lista dei monumenti */}
-        <Col xs={12} md={4} className="border-end pe-0 ">
-          <h2 className="handwritten text-center mb-0 pb-2 bg-oro">Luoghi</h2>
+        <Col xs={12} md={4} className="mx-auto mb-5">
+          <h2 className="handwritten text-center mb-0 py-2 bg-oro">Luoghi</h2>
 
           {isLoading && <p>Sto caricando i luoghi da esplorare...</p>}
           {isError && (
@@ -66,23 +69,30 @@ export default function Esplora() {
         </Col>
 
         {/* COLONNA DESTRA — Dettaglio dei monumenti */}
-        <Col xs={12} md={8} className="ps-4">
+        <Col xs={12} md={8} className="mx-auto">
           {selected ? (
-            <div className="dettaglio-monumento">
-              <h2 className="handwritten mb-3">{selected.nome}</h2>
+            <div className="dettaglio-monumento page-background px-5 py-3">
+              <h2 className="handwritten mb-3 fs-1">{selected.nome}</h2>
 
-              <Card className="shadow-sm mb-4">
+              <Card className="shadow-sm mb-4 mt-4">
                 <Card.Img
                   src={selected.foto}
                   alt={selected.nome}
                   className="img-fluid"
                 />
               </Card>
+              <div className="d-flex justify-content-between align-items-center mt-3">
+                <h4 className="oro fw-bold mb-0">
+                  <Badge bg="warning">{selected.nomeCategoria}</Badge>
+                </h4>
 
-              <p className="oro fw-bold">{selected.nomeCategoria}</p>
-              <p className="text-muted">{selected.posizione}</p>
+                <p className="text-muted mb-0">
+                  <BsCompassFill className="me-2" size={18} color="#1b8b32" />
+                  {selected.posizione}
+                </p>
+              </div>
 
-              <p className="mt-3">{selected.descrizione}</p>
+              <p className="mt-3 fs-3">{selected.descrizione}</p>
             </div>
           ) : (
             <p className="text-center mt-5">Seleziona un luogo da esplorare.</p>

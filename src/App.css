@@ -180,5 +180,46 @@
 }
 
 /* PAGINA ESPLORA */
-.lista-monumenti {
+.selected-monumento {
+  background-color: #f7e7c1 !important;
+  border-left: 6px solid #c9a86a;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+
+/* PAGINA ADMIN */
+.lista {
+  cursor: pointer;
+  padding: 10px 0;
+  font-size: 1.2rem;
+  border: none;
+  background: transparent;
+}
+
+.lista:hover {
+  color: black;
+}
+
+.active-lista {
+  font-weight: bold;
+  color: black;
+  border-left: 4px solid #c9a86a !important;
+  padding-left: 8px;
+}
+
+/* menu laterale pannello amministratore*/
+/* Desktop*/
+.admin-sidebar {
+  min-height: 100dvh;
+  position: relative;
+  background: #fff;
+  box-shadow: inset -6px 0 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .admin-sidebar {
+    min-height: auto;
+    height: auto;
+  }
 }
