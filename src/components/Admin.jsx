@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom"
 import { Container, Row, Col, ListGroup } from "react-bootstrap"
 import Loading from "../components/Loading"
 import Error from "../components/Error"
-import Categorie from "../components/Categorie"
+import Categorie from "./GestioneCategorie"
+import Monumenti from "./GestioneMonumenti"
 import { logout } from "../redux/store/authSlice"
 
 export default function Admin() {
@@ -16,7 +17,7 @@ export default function Admin() {
   const token = useSelector((state) => state.auth.token)
 
   // sezione da mostrare
-  const [section, setSection] = useState("categorie")
+  const [section, setSection] = useState("monumenti")
 
   useEffect(() => {
     // Se il token non c'è, si viene reindirizzati alla pagina di login
@@ -90,6 +91,7 @@ export default function Admin() {
         {/* CONTENUTO CENTRALE */}
         <Col xs={12} md={8} className="page-background p-4">
           {section === "categorie" && <Categorie />}
+          {section === "monumenti" && <Monumenti />}
         </Col>
       </Row>
     </Container>

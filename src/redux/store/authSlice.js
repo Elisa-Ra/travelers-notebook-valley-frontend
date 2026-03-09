@@ -13,7 +13,6 @@ const authSlice = createSlice({
   reducers: {
     // salva lo user ed il token in redux, ed il token anche in localStorage
     loginSuccess: (state, action) => {
-      state.user = action.payload.user
       state.token = action.payload.token
       localStorage.setItem("token", action.payload.token)
     },

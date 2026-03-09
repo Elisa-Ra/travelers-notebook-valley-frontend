@@ -1,11 +1,11 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
-import { loginSuccess } from "../redux/store/authSlice"
+import { loginSuccess, setUser } from "../redux/store/authSlice"
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
 import Loading from "./Loading"
-import Error from "./Error"
+import ErrorMessage from "./Error"
 import bg from "../assets/page-bg.svg"
 
 export default function Login() {
@@ -40,18 +40,25 @@ export default function Login() {
 
       // se tutto va bene, prendo i dati
       const data = await res.json()
-      console.log("Login riuscito:", data)
 
-      // Aggiorno redux con il token e l'utente
-      dispatch(
-        loginSuccess({
-          token: data.accessToken,
-          user: data.user,
-        }),
-      )
+      // Aggiorno redux con il token di accesso
+      dispatch(loginSuccess({ token: data.accessToken }))
+      const meRes = await fetch("http://localhost:3001/utenti/me", {
+        headers: {
+          Authorization: `Bearer ${data.accessToken}`,
+        },
+      })
 
-      // reindirizzo al profilo
-      navigate("/profilo")
+      if (!meRes.ok) throw new Error("Impossibile recuperare il profilo")
+
+      const user = await meRes.json()
+
+      // 4) Salvo l’utente in Redux
+      dispatch(setUser(user))
+
+      // 5) Redirect in base al ruolo
+      if (user.ruolo === "ADMIN") navigate("/admin")
+      else navigate("/profilo")
     } catch (error) {
       console.log(error)
       setIsError(true)
@@ -63,7 +70,7 @@ export default function Login() {
   return (
     <div className="login-page">
       {isLoading && <Loading />}
-      {isError && <Error />}
+      {isError && <ErrorMessage />}
       <div
         className="page-bg pt-5 px-4"
         style={{ backgroundImage: `url(${bg})` }}
