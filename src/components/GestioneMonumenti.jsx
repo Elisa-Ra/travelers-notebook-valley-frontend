@@ -38,8 +38,7 @@ export default function ManageMonuments() {
   // recupero il token dal localStorage
   const token = localStorage.getItem("token")
 
-  // GET DEI MONUMENTI (e categorie)
-
+  // GET DEI MONUMENTI
   useEffect(() => {
     const fetchMonumenti = async () => {
       try {
@@ -54,7 +53,7 @@ export default function ManageMonuments() {
         console.error("Si è verificato un errore:", err)
       }
     }
-
+    // GET delle categorie
     const fetchCategorie = async () => {
       try {
         const res = await fetch("http://localhost:3001/categorie", {
@@ -90,6 +89,7 @@ export default function ManageMonuments() {
       nomeCategoria,
     }
 
+    // Post del monumento
     const res = await fetch("http://localhost:3001/monumento", {
       method: "POST",
       headers: {
@@ -99,44 +99,45 @@ export default function ManageMonuments() {
       body: JSON.stringify(dto),
     })
 
-    if (res.ok) {
-      const created = await res.json()
-      setMonumenti((prev) => [...prev, created])
+    if (!res.ok) {
+      showAlert("Ops, si è verificato un errore.", "danger")
+      return
+    }
 
-      // carico la foto se è presente
-      if (foto) {
-        await uploadFoto(created.id, foto)
+    const created = await res.json()
+
+    // Carico la foto se è presente
+    if (foto) {
+      const formData = new FormData()
+      formData.append("file", foto)
+
+      const uploadRes = await fetch(
+        `http://localhost:3001/monumento/${created.id}/foto`,
+        {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        },
+      )
+      // se il caricamento va a buon fine modifico la foto con quella nuova, sennò lascio quella vecchia
+      if (uploadRes.ok) {
+        const updated = await uploadRes.json()
+        setMonumenti((prev) => [...prev, updated])
+      } else {
+        setMonumenti((prev) => [...prev, created])
       }
-      showAlert("Monumento creato con successo!")
-
-      // Resetto il form
-      setNome("")
-      setDescrizione("")
-      setPosizione("")
-      setNomeCategoria("")
-      setFoto(null)
+    } else {
+      setMonumenti((prev) => [...prev, created])
     }
-  }
-  // CARICAMENTO FOTO
-  const uploadFoto = async (id, file) => {
-    const formData = new FormData()
-    formData.append("file", file)
 
-    const res = await fetch(`http://localhost:3001/monumento/${id}/foto`, {
-      method: "POST",
-      headers: { Authorization: `Bearer ${token}` },
-      body: formData,
-    })
+    showAlert("Monumento aggiunto con successo!")
 
-    if (res.ok) {
-      const updated = await res.json()
-
-      // aggiorno lo stato locale
-      setMonumenti((prev) => prev.map((m) => (m.id === id ? updated : m)))
-      showAlert("Foto aggiornata con successo!")
-      setNewFoto(null)
-      setShowEdit(false)
-    }
+    // reset
+    setNome("")
+    setDescrizione("")
+    setPosizione("")
+    setNomeCategoria("")
+    setFoto(null)
   }
 
   // ELIMINO UN MONUMENTO
@@ -148,7 +149,7 @@ export default function ManageMonuments() {
 
     if (res.ok) {
       setMonumenti((prev) => prev.filter((m) => m.id !== id))
-      showAlert("Monumento eliminato con successo!", "danger")
+      showAlert("Il monumento è stato eliminato con successo!", "danger")
     }
   }
 
@@ -172,6 +173,7 @@ export default function ManageMonuments() {
       nomeCategoria: editData.nomeCategoria.trim(),
     }
 
+    // modifico
     const res = await fetch(`http://localhost:3001/monumento/${editData.id}`, {
       method: "PUT",
       headers: {
@@ -181,16 +183,53 @@ export default function ManageMonuments() {
       body: JSON.stringify(dto),
     })
 
-    if (res.ok) {
-      const updated = await res.json()
-      setMonumenti((prev) =>
-        prev.map((m) => (m.id === updated.id ? updated : m)),
-      )
-      showAlert("Monumento aggiornato!")
-
-      setShowEdit(false)
-      setNewFoto(null)
+    if (!res.ok) {
+      showAlert("Ops, si è verificato un errore durante la modifica.", "danger")
+      return
     }
+
+    const updated = await res.json()
+
+    // aggiorno la lista dei monumenti
+    setMonumenti((prev) => prev.map((m) => (m.id === updated.id ? updated : m)))
+
+    // Modifico la foto (se è presente)
+    if (newFoto) {
+      const formData = new FormData()
+      formData.append("file", newFoto)
+
+      const uploadRes = await fetch(
+        `http://localhost:3001/monumento/${editData.id}/foto`,
+        {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        },
+      )
+
+      if (uploadRes.ok) {
+        const updatedWithPhoto = await uploadRes.json()
+
+        // aggiorno la lista dei monumenti con l'elemento modificato
+        setMonumenti((prev) =>
+          prev.map((m) =>
+            m.id === updatedWithPhoto.id ? updatedWithPhoto : m,
+          ),
+        )
+
+        showAlert("Monumento e foto aggiornati con successo!")
+      } else {
+        showAlert(
+          "Il monumento è stato aggiornato con successo. Errore nell'aggiornare la foto.",
+          "warning",
+        )
+      }
+    } else {
+      showAlert("Il monumento è stato aggiornato con successo!")
+    }
+
+    setNewFoto(null)
+    setShowEdit(false)
   }
 
   return (
@@ -281,8 +320,13 @@ export default function ManageMonuments() {
             key={mon.id}
             className="d-flex justify-content-between align-items-center"
           >
-            <span>
-              <strong>{mon.nome}</strong> - {mon.nomeCategoria}
+            <span className="d-flex align-items-center gap-2">
+              <img
+                src={mon.foto}
+                alt={mon.nome}
+                style={{ width: "40px", height: "40px", objectFit: "contain" }}
+              />
+              <strong>{mon.nome}</strong> — {mon.nomeCategoria}
             </span>
 
             <div>
@@ -379,14 +423,6 @@ export default function ManageMonuments() {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button
-            className="wax me-2"
-            onClick={() => uploadFoto(editData.id, newFoto)}
-            disabled={!newFoto}
-          >
-            Cambia foto
-          </Button>
-
           <Button className="wax" onClick={updateMonumento}>
             Salva
           </Button>

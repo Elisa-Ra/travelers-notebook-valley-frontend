@@ -6,6 +6,7 @@ import Loading from "../components/Loading"
 import Error from "../components/Error"
 import Categorie from "./GestioneCategorie"
 import Monumenti from "./GestioneMonumenti"
+import Medaglie from "./GestioneMedaglie"
 import { logout } from "../redux/store/authSlice"
 
 export default function Admin() {
@@ -76,6 +77,13 @@ export default function Admin() {
               >
                 Categorie
               </ListGroup.Item>
+              <ListGroup.Item
+                action
+                onClick={() => setSection("medaglie")}
+                className={`lista ${section === "medaglie" ? "active-lista" : ""}`}
+              >
+                Medaglie
+              </ListGroup.Item>
             </ListGroup>
           </div>
 
@@ -92,6 +100,7 @@ export default function Admin() {
         <Col xs={12} md={8} className="page-background p-4">
           {section === "categorie" && <Categorie />}
           {section === "monumenti" && <Monumenti />}
+          {section === "medaglie" && <Medaglie />}
         </Col>
       </Row>
     </Container>
