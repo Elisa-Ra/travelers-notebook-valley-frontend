@@ -18,7 +18,7 @@ export default function Admin() {
   const token = useSelector((state) => state.auth.token)
 
   // sezione da mostrare
-  const [section, setSection] = useState("monumenti")
+  const [section, setSection] = useState("categorie")
 
   useEffect(() => {
     // Se il token non c'è, si viene reindirizzati alla pagina di login
@@ -64,14 +64,6 @@ export default function Admin() {
             <ListGroup variant="flush" className="lista-monumenti">
               <ListGroup.Item
                 action
-                onClick={() => setSection("monumenti")}
-                className={`lista ${section === "monumenti" ? "active-lista" : ""}`}
-              >
-                Monumenti
-              </ListGroup.Item>
-
-              <ListGroup.Item
-                action
                 onClick={() => setSection("categorie")}
                 className={`lista ${section === "categorie" ? "active-lista" : ""}`}
               >
@@ -83,6 +75,14 @@ export default function Admin() {
                 className={`lista ${section === "medaglie" ? "active-lista" : ""}`}
               >
                 Medaglie
+              </ListGroup.Item>
+
+              <ListGroup.Item
+                action
+                onClick={() => setSection("monumenti")}
+                className={`lista ${section === "monumenti" ? "active-lista" : ""}`}
+              >
+                Monumenti
               </ListGroup.Item>
             </ListGroup>
           </div>
@@ -99,8 +99,8 @@ export default function Admin() {
         {/* CONTENUTO CENTRALE */}
         <Col xs={12} md={8} className="page-background p-4">
           {section === "categorie" && <Categorie />}
-          {section === "monumenti" && <Monumenti />}
           {section === "medaglie" && <Medaglie />}
+          {section === "monumenti" && <Monumenti />}
         </Col>
       </Row>
     </Container>

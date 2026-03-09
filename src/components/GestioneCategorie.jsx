@@ -105,10 +105,10 @@ export default function ManageCategories() {
 
   return (
     <div>
-      <h2 className="handwritten mb-4">Gestione Categorie</h2>
+      <h2 className="handwritten mb-4 text-center mt-2">Gestione Categorie</h2>
 
       {/* FORM PER LA CREAZIONE DI UNA CATEGORIA*/}
-      <Form onSubmit={createCategoria} className="mb-4">
+      <Form onSubmit={createCategoria} className="mb-4 w-50 mx-auto">
         <Form.Group>
           <Form.Label htmlFor="nomeCategoria">Nuova Categoria</Form.Label>
           <Form.Control

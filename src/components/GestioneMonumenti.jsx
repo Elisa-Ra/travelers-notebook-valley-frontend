@@ -233,7 +233,7 @@ export default function ManageMonuments() {
   }
 
   return (
-    <div>
+    <div className="w-75 mx-auto">
       {/* messaggio di alert */}
       <MyAlert
         message={alertMessage}
@@ -241,11 +241,11 @@ export default function ManageMonuments() {
         onClose={() => setAlertMessage("")}
       />
 
-      <h2 className="handwritten my-4">Gestione Monumenti</h2>
+      <h2 className="handwritten mb-4 text-center mt-2">Gestione Monumenti</h2>
 
       {/* FORM PER LA CREAZIONE DI UN MONUMENTO*/}
-      <Form onSubmit={createMonumento} className="mb-4">
-        <Form.Group>
+      <Form onSubmit={createMonumento} className="mb-4 mx-auto">
+        <Form.Group className="mb-3">
           <Form.Label htmlFor="nome">Nome</Form.Label>
           <Form.Control
             id="nome"
@@ -256,7 +256,7 @@ export default function ManageMonuments() {
           />
         </Form.Group>
 
-        <Form.Group>
+        <Form.Group className="mb-3">
           <Form.Label htmlFor="descrizione">Descrizione</Form.Label>
           <Form.Control
             id="descrizione"
@@ -269,7 +269,7 @@ export default function ManageMonuments() {
           />
         </Form.Group>
 
-        <Form.Group>
+        <Form.Group className="mb-3">
           <Form.Label htmlFor="posizione">Posizione</Form.Label>
           <Form.Control
             id="posizione"
@@ -280,7 +280,7 @@ export default function ManageMonuments() {
           />
         </Form.Group>
 
-        <Form.Group>
+        <Form.Group className="mb-3">
           <Form.Label htmlFor="categoria">Categoria</Form.Label>
           <Form.Select
             id="categoria"
@@ -298,7 +298,7 @@ export default function ManageMonuments() {
           </Form.Select>
         </Form.Group>
 
-        <Form.Group>
+        <Form.Group className="mb-3">
           <Form.Label htmlFor="foto">Foto</Form.Label>
           <Form.Control
             id="foto"
@@ -308,13 +308,15 @@ export default function ManageMonuments() {
           />
         </Form.Group>
 
-        <Button type="submit" className="wax mt-3">
-          Aggiungi Monumento
-        </Button>
+        <div className="d-flex">
+          <Button type="submit" className="wax mt-3 ms-auto">
+            Aggiungi
+          </Button>
+        </div>
       </Form>
 
       {/* LISTA DEI MONUMENTI */}
-      <ListGroup>
+      <ListGroup className=" mx-auto">
         {monumenti.map((mon) => (
           <ListGroup.Item
             key={mon.id}

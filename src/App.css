@@ -1,9 +1,9 @@
 /* BACKGROUND CON LA TEXTURE PAGINA ORIZZONTALE */
 .page-background {
   background-image: url("/page-bg-or.svg");
-  background-size: cover;
-  background-position: bottom center;
+  background-position: top center;
   background-repeat: no-repeat;
+  background-size: 100% auto;
 }
 .page-background-v {
   background-image: url("/page-bg.svg");
