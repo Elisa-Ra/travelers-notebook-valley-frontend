@@ -53,18 +53,28 @@ export default function Profilo() {
   if (isError) return <Error />
 
   return (
-    <Container fluid className="profile-layout mt-3 ">
-      <h2 className="text-center">
-        Benvenuto nel tuo diario di viaggio, {user.username}!
-      </h2>
-      {/* componente con le istruzioni del diario */}
-      <Istruzioni />
-      <Row className="justify-content-center ">
-        {" "}
-        {/* Componente per scrivere un nuovo post (pagina) */}
-        <Pagina user={user} />
-        {/* Lista dei post */}
-        <Posts />
+    <Container fluid className="mt-3 px-0">
+      <Row className="justify-content-center gx-0">
+        {/* Colonna vuota sinistra */}
+        <Col xs={0} md={2} lg={3} className="p-0"></Col>
+
+        {/* COLONNA CENTRALE */}
+        <Col xs={12} md={8} lg={6} className="px-3">
+          <div style={{ maxWidth: "100%", overflowX: "hidden" }}>
+            <h2 className="text-center">
+              Benvenuto nel tuo diario di viaggio, {user.username}!
+            </h2>
+            {/* Istruzioni sul diario */}
+            <Istruzioni />
+            {/* Form per aggiungere un post (pagina) */}
+            <Pagina user={user} />
+            {/* Lista dei post presenti */}
+            <Posts />
+          </div>
+        </Col>
+
+        {/* Colonna vuota destra */}
+        <Col xs={0} md={2} lg={3} className="p-0"></Col>
       </Row>
     </Container>
   )

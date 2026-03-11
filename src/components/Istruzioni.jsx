@@ -1,8 +1,5 @@
 import { useState } from "react"
-import { Container } from "react-bootstrap"
-import Button from "react-bootstrap/Button"
-import Card from "react-bootstrap/Card"
-import Collapse from "react-bootstrap/Collapse"
+import { Button, Collapse } from "react-bootstrap"
 import { BsVectorPen } from "react-icons/bs"
 
 function Istruzioni() {
@@ -10,27 +7,33 @@ function Istruzioni() {
 
   return (
     <>
-      <Container className="text-center mx-auto">
+      <div className="d-flex justify-content-center">
         <Button
           onClick={() => setOpen(!open)}
-          aria-controls="example-collapse-text"
+          aria-controls="istruzioni-collapse"
           aria-expanded={open}
         >
           Istruzioni
         </Button>
-        <div style={{ minHeight: "150px" }} className="m-0 p-0 mt-2">
-          <Collapse in={open} dimension="width">
-            <div id="example-collapse-text">
-              <Card body style={{ width: "400px" }}>
-                In queste pagine potrai appuntare i tuoi pensieri e le tue
-                sensazioni sui luoghi che visiterai durante il tuo viaggio.
-                Potrai anche conservare le tue foto ricordo o i tuoi schizzi.{" "}
-                <BsVectorPen />
-              </Card>
-            </div>
-          </Collapse>
+      </div>
+
+      <Collapse in={open}>
+        <div
+          id="istruzioni-collapse"
+          className="mt-2"
+          style={{
+            maxWidth: "100%",
+            overflowX: "hidden",
+          }}
+        >
+          <div className="istruzioni">
+            In queste pagine potrai appuntare i tuoi pensieri e le tue
+            sensazioni sui luoghi che visiterai durante il tuo viaggio. Potrai
+            anche conservare le tue foto ricordo o i tuoi schizzi.{" "}
+            <BsVectorPen />
+          </div>
         </div>
-      </Container>
+      </Collapse>
     </>
   )
 }

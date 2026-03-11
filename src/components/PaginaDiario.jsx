@@ -1,9 +1,9 @@
 import { useState } from "react"
-import { Form, Button } from "react-bootstrap"
+import { Form, Button, Container } from "react-bootstrap"
 import MyAlert from "./MyAlert"
 
 // COMPONENTE PER SCRIVERE UN NUOVO POST (PAGINA) NEL DIARIO DELL'UTENTE
-export default function Pagina() {
+export default function PaginaDiario() {
   // creazione post
   const [titolo, setTitolo] = useState("")
   const [contenuto, setContenuto] = useState("")
@@ -68,7 +68,7 @@ export default function Pagina() {
   }
 
   return (
-    <div className="container py-4">
+    <>
       <MyAlert
         message={alertMessage}
         variant={alertVariant}
@@ -120,6 +120,6 @@ export default function Pagina() {
           Scrivi
         </Button>
       </Form>
-    </div>
+    </>
   )
 }
