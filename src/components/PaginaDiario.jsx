@@ -1,6 +1,7 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Form, Button, Container } from "react-bootstrap"
 import MyAlert from "./MyAlert"
+import { BsVectorPen } from "react-icons/bs"
 
 // COMPONENTE PER SCRIVERE UN NUOVO POST (PAGINA) NEL DIARIO DELL'UTENTE
 export default function PaginaDiario() {
@@ -9,6 +10,7 @@ export default function PaginaDiario() {
   const [contenuto, setContenuto] = useState("")
   const [idMonumento, setIdMonumento] = useState("")
   const [foto, setFoto] = useState(null)
+  const [monumenti, setMonumenti] = useState([])
 
   const [alertMessage, setAlertMessage] = useState("")
   const [alertVariant, setAlertVariant] = useState("success")
@@ -19,8 +21,23 @@ export default function PaginaDiario() {
     setAlertMessage(msg)
     setAlertVariant(variant)
   }
+  // recupero la lista di monumenti
+  useEffect(() => {
+    const fetchMonumenti = async () => {
+      const res = await fetch("http://localhost:3001/monumento", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
 
-  // Creazione nuovo post
+      if (res.ok) {
+        const data = await res.json()
+        setMonumenti(data)
+      }
+    }
+
+    fetchMonumenti()
+  }, [token])
+
+  // Creazione di nuovo post (pagina)
   const createPost = async (e) => {
     e.preventDefault()
 
@@ -30,7 +47,7 @@ export default function PaginaDiario() {
       idMonumento,
     }
 
-    const res = await fetch("http://localhost:3001/post", {
+    const res = await fetch("http://localhost:3001/posts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -59,6 +76,7 @@ export default function PaginaDiario() {
     }
 
     showAlert("Post creato con successo!")
+    onPostCreated()
 
     // resetto i campi
     setTitolo("")
@@ -76,10 +94,10 @@ export default function PaginaDiario() {
       />
 
       {/* FORM NUOVO POST */}
-      <h4 className="handwritten mt-4">Scrivi un nuovo post</h4>
+      <h4 className="handwritten my-4">Scrivi una nuova pagina</h4>
 
-      <Form onSubmit={createPost} className="mb-4">
-        <Form.Group>
+      <Form onSubmit={createPost}>
+        <Form.Group className="my-4">
           <Form.Label>Titolo</Form.Label>
           <Form.Control
             value={titolo}
@@ -88,7 +106,7 @@ export default function PaginaDiario() {
           />
         </Form.Group>
 
-        <Form.Group>
+        <Form.Group className="my-4">
           <Form.Label>Contenuto</Form.Label>
           <Form.Control
             as="textarea"
@@ -99,16 +117,24 @@ export default function PaginaDiario() {
           />
         </Form.Group>
 
-        <Form.Group>
-          <Form.Label>ID Monumento</Form.Label>
-          <Form.Control
+        <Form.Group className="my-4">
+          <Form.Label>Monumento</Form.Label>
+          <Form.Select
             value={idMonumento}
             onChange={(e) => setIdMonumento(e.target.value)}
             required
-          />
+          >
+            <option value="">Seleziona un monumento...</option>
+
+            {monumenti.map((m) => (
+              <option key={m.id} value={m.id}>
+                {m.nome}
+              </option>
+            ))}
+          </Form.Select>
         </Form.Group>
 
-        <Form.Group>
+        <Form.Group className="my-4">
           <Form.Label>Foto (opzionale)</Form.Label>
           <Form.Control
             type="file"
@@ -116,9 +142,11 @@ export default function PaginaDiario() {
           />
         </Form.Group>
 
-        <Button type="submit" className="wax mt-3">
-          Scrivi
-        </Button>
+        <div className="d-flex justify-content-end pe-2">
+          <Button type="submit" className="wax mt-3">
+            Scrivi <BsVectorPen />
+          </Button>
+        </div>
       </Form>
     </>
   )

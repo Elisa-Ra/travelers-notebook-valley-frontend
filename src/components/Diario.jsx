@@ -14,6 +14,8 @@ export default function Profilo() {
   const [isLoading, setIsLoading] = useState(true)
   const [isError, setIsError] = useState(false)
 
+  const [refreshPosts, setRefreshPosts] = useState(false)
+
   useEffect(() => {
     const token = localStorage.getItem("token")
 
@@ -67,9 +69,12 @@ export default function Profilo() {
             {/* Istruzioni sul diario */}
             <Istruzioni />
             {/* Form per aggiungere un post (pagina) */}
-            <Pagina user={user} />
+            <Pagina
+              user={user}
+              onPostCreated={() => setRefreshPosts(!refreshPosts)}
+            />
             {/* Lista dei post presenti */}
-            <Posts />
+            <Posts refresh={refreshPosts} />
           </div>
         </Col>
 

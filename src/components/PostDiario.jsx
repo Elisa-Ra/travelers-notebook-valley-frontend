@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react"
-import { ListGroup } from "react-bootstrap"
+import { ListGroup, Pagination } from "react-bootstrap"
 
-export default function PostDiario() {
+export default function PostDiario({ refresh }) {
   const [posts, setPosts] = useState([])
   const token = localStorage.getItem("token")
+
+  const [currentPage, setCurrentPage] = useState(1)
+  const postsPerPage = 1
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -18,11 +21,22 @@ export default function PostDiario() {
     }
 
     if (token) fetchPosts()
-  }, [token])
+  }, [token, refresh])
+  // paginazione
+  const totalPages = Math.ceil(posts.length / postsPerPage)
+  const indexOfLast = currentPage * postsPerPage
+  const indexOfFirst = indexOfLast - postsPerPage
+  const currentPosts = posts.slice(indexOfFirst, indexOfLast)
 
   return (
     <>
       <h4 className="handwritten mt-4">Il mio diario</h4>
+
+      {posts.length > 0 && (
+        <p className="text-muted">
+          Pagina {currentPage} di {totalPages}
+        </p>
+      )}
 
       <ListGroup>
         {posts.length === 0 && (
@@ -31,16 +45,42 @@ export default function PostDiario() {
             diario!
           </p>
         )}
-        {posts.map((p) => (
+
+        {currentPosts.map((p) => (
           <ListGroup.Item key={p.id}>
             <h5>{p.titolo}</h5>
             <p>{p.contenuto}</p>
             <small className="text-muted">
-              Pubblicato il {new Date(p.dataCreazione).toLocaleDateString()}
+              Pagina scritta il {new Date(p.dataCreazione).toLocaleDateString()}
             </small>
           </ListGroup.Item>
         ))}
       </ListGroup>
+
+      {/* PAGINAZIONE */}
+      {totalPages > 1 && (
+        <Pagination className="mt-3 justify-content-center">
+          <Pagination.Prev
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(currentPage - 1)}
+          />
+
+          {[...Array(totalPages)].map((_, i) => (
+            <Pagination.Item
+              key={i}
+              active={i + 1 === currentPage}
+              onClick={() => setCurrentPage(i + 1)}
+            >
+              {i + 1}
+            </Pagination.Item>
+          ))}
+
+          <Pagination.Next
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage(currentPage + 1)}
+          />
+        </Pagination>
+      )}
     </>
   )
 }
