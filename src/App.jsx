@@ -8,6 +8,7 @@ import Register from "./components/Register"
 import Profilo from "./components/Profile"
 import Esplora from "./components/Esplora"
 import Admin from "./components/Admin"
+import Diario from "./components/Diario.jsx"
 
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -52,12 +53,20 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
-          {/* La route del profilo appare solo agli utenti loggati */}
+          {/* Le route del profilo e del diario appaiono solo agli utenti loggati */}
           <Route
             path="/profilo"
             element={
               <ProtectedRoute>
                 <Profilo />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/diario"
+            element={
+              <ProtectedRoute>
+                <Diario />
               </ProtectedRoute>
             }
           />

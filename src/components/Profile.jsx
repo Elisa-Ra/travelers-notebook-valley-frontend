@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { Container, Row, Col } from "react-bootstrap"
 import Loading from "../components/Loading"
 import Error from "../components/Error"
+import Medaglie from "../components/ProfiloMedaglie"
 
 export default function Profilo() {
   const navigate = useNavigate()
@@ -79,12 +80,14 @@ export default function Profilo() {
             <strong>Registrato il:</strong>{" "}
             {new Date(user.dataRegistrazione).toLocaleDateString()}
           </p>
+          {/* Lista delle medaglie dell'utente */}
+          <Medaglie />
         </Col>
       </Row>
       <Row>
-        <Col>
-          <button className="wax mt-4" onClick={() => navigate("/")}>
-            Torna al taccuino
+        <Col className="mx-auto text-center mb-2">
+          <button className="wax mt-4" onClick={() => navigate("/diario")}>
+            Diario
           </button>
           <button className="wax mt-4" onClick={logout}>
             Logout

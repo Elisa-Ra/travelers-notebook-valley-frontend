@@ -47,7 +47,9 @@ function MyNavbar() {
                 )}
 
                 <NavDropdown.Divider />
-
+                <NavDropdown.Item as={Link} to="/diario">
+                  Diario
+                </NavDropdown.Item>
                 <NavDropdown.Item onClick={handleLogout}>
                   Logout
                 </NavDropdown.Item>

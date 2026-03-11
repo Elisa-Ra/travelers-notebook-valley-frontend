@@ -46,7 +46,7 @@ export default function ManageMedaglie() {
     }
 
     fetchMedaglie()
-  }, [])
+  }, [token])
 
   // CREAZIONE medaglia
   const createMedaglia = async (e) => {
