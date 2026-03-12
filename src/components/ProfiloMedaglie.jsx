@@ -35,16 +35,44 @@ export default function ProfiloMedaglie() {
         )}
 
         {medaglie.map((m) => (
-          <ListGroup.Item
-            key={m.id}
-            className="d-flex align-items-center gap-3"
-          >
-            <img
-              src={m.icona}
-              alt={m.nome}
-              style={{ width: "40px", height: "40px", objectFit: "contain" }}
-            />
-            <strong>{m.nome}</strong> — {m.descrizione}
+          <ListGroup.Item key={m.id} className="d-flex align-items-start gap-4">
+            {/* COLONNA SINISTRA ICONA */}
+
+            <div className="medaglia-wrapper">
+              <img src={m.icona} alt={m.nome} className="medaglia-icona" />
+            </div>
+
+            {/* COLONNA DESTRA */}
+            <div className="flex-grow-1">
+              {/* Sopra */}
+              <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                {/* nome */}
+                <div
+                  className="fw-bold text-truncate"
+                  style={{
+                    maxWidth: "100%",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {m.nome}
+                </div>
+
+                {/* data */}
+                {m.dataConferimento && (
+                  <div
+                    className="text-muted mt-1 mt-md-0"
+                    style={{ fontSize: "0.85rem", whiteSpace: "nowrap" }}
+                  >
+                    {new Date(m.dataConferimento).toLocaleDateString()}
+                  </div>
+                )}
+              </div>
+
+              {/* sotto descrizione */}
+              <div className="mt-1">{m.descrizione}</div>
+            </div>
           </ListGroup.Item>
         ))}
       </ListGroup>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { Container, Row, Col } from "react-bootstrap"
+import { Container, Row, Col, Card } from "react-bootstrap"
 import Loading from "../components/Loading"
 import Error from "../components/Error"
 import Medaglie from "../components/ProfiloMedaglie"
@@ -55,43 +55,40 @@ export default function Profilo() {
   if (isError) return <Error />
 
   return (
-    <Container fluid className="profile-layout mt-3">
+    <Container className="profile-layout my-3 page-background p-4">
       <Row className="justify-content-center">
-        <Col xs={12} sm={4} md={4} lg={4} className="page-background profile">
+        <Col xs={12} sm={4} md={4} lg={4} className="profile">
           {/* Se l'avatar esiste, lo mostro */}
           {user.avatar && (
-            <div className="my-3 text-center">
-              <img
+            <Card className="polaroid-card my-3 mx-auto">
+              <Card.Img
+                variant="top"
                 src={user.avatar}
-                alt="Avatar"
-                className="avatar-img border border-black"
+                className="polaroid-img"
               />
-            </div>
+              <Card.Body className="text-center">
+                <Card.Text className="polaroid-caption handwritten">
+                  <strong>{user.username}</strong> <br />
+                  Inizio del viaggio{" "}
+                  {new Date(user.dataRegistrazione).toLocaleDateString()}
+                </Card.Text>
+              </Card.Body>
+            </Card>
           )}
 
-          <p className="handwritten">
-            <strong>Username:</strong> {user.username}
-          </p>
-          <p className="handwritten">
-            <strong>Email:</strong> {user.email}
-          </p>
-
-          <p className="handwritten">
-            <strong>Registrato il:</strong>{" "}
-            {new Date(user.dataRegistrazione).toLocaleDateString()}
-          </p>
+          <p className="handwritten"></p>
+          <div className="mb-2 d-flex justify-content-between">
+            <button className="wax mt-4" onClick={logout}>
+              Logout
+            </button>
+            <button className="wax mt-4" onClick={() => navigate("/diario")}>
+              Diario
+            </button>
+          </div>
+        </Col>
+        <Col>
           {/* Lista delle medaglie dell'utente */}
           <Medaglie />
-        </Col>
-      </Row>
-      <Row>
-        <Col className="mx-auto text-center mb-2">
-          <button className="wax mt-4" onClick={() => navigate("/diario")}>
-            Diario
-          </button>
-          <button className="wax mt-4" onClick={logout}>
-            Logout
-          </button>
         </Col>
       </Row>
     </Container>

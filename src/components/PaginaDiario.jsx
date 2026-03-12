@@ -4,7 +4,7 @@ import MyAlert from "./MyAlert"
 import { BsVectorPen } from "react-icons/bs"
 
 // COMPONENTE PER SCRIVERE UN NUOVO POST (PAGINA) NEL DIARIO DELL'UTENTE
-export default function PaginaDiario() {
+export default function PaginaDiario({ onPostCreated }) {
   // creazione post
   const [titolo, setTitolo] = useState("")
   const [contenuto, setContenuto] = useState("")

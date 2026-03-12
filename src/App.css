@@ -5,6 +5,13 @@
   background-repeat: no-repeat;
   background-size: 100% auto;
 }
+.page-background {
+  background: url("/page-bg-or.svg");
+  background-size: cover;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
 .page-background-v {
   background-image: url("/page-bg.svg");
   background-size: cover;
@@ -174,11 +181,65 @@
 }
 
 /* PROFILO PERSONALE */
-.profile {
-  min-height: 350px;
-  padding-top: 25px;
+.profile-layout {
+  overflow-x: hidden;
 }
 
+/* Avatar profilo */
+.polaroid-card {
+  width: 100%;
+  max-width: 220px;
+  border: none;
+  background: #fff;
+  padding: 10px 10px 20px;
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.2),
+    0 8px 20px rgba(0, 0, 0, 0.15);
+  transform: rotate(-2deg);
+  margin: 0 auto;
+}
+
+.polaroid-img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.polaroid-caption {
+  margin-top: 10px;
+  font-size: 1.1rem;
+}
+/* Medaglie del profilo */
+.medaglia-wrapper {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #fffdf7;
+  border: 2px solid #d4c7a1;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.25),
+    0 6px 12px rgba(0, 0, 0, 0.15),
+    inset 0 0 6px rgba(0, 0, 0, 0.1);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.medaglia-icona {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+.list-group-item {
+  overflow-x: hidden;
+}
 /* PAGINA ESPLORA */
 .selected-monumento {
   background-color: #f7e7c1 !important;
