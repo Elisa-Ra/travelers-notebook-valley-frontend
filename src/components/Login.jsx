@@ -2,11 +2,10 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { loginSuccess, setUser } from "../redux/store/authSlice"
-import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
 import Loading from "./Loading"
 import ErrorMessage from "./Error"
-import bg from "../assets/page-bg.svg"
+import { Container } from "react-bootstrap"
 
 export default function Login() {
   const navigate = useNavigate()
@@ -68,53 +67,51 @@ export default function Login() {
   }
 
   return (
-    <div className="login-page">
+    <Container>
       {isLoading && <Loading />}
       {isError && <ErrorMessage />}
-      <div
-        className="page-bg pt-5 px-4"
-        style={{ backgroundImage: `url(${bg})` }}
-      >
-        <p className="h3 text-center mb-5">Il mio taccuino del viaggiatore</p>
+      <Container className="form-bg page-background pt-5 px-4">
+        <p className="h3 text-center mb-5 handwritten">
+          <strong>Apri il tuo taccuino </strong>
+        </p>
 
-        <Form className="form-content flex-grow-1" onSubmit={handleSubmit}>
+        <Form className="form-content flex-grow-1 " onSubmit={handleSubmit}>
           <Form.Group className="mb-3 fs-4" controlId="formBasicEmail">
-            <Form.Label>Posta elettronica</Form.Label>
+            <Form.Label>Indirizzo di posta</Form.Label>
             <Form.Control
               type="email"
-              placeholder="Inserisci email"
+              placeholder="Inserisci qui la tua email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="handwritten"
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
+          <Form.Group className="mb-3 fs-4" controlId="formBasicPassword">
+            <Form.Label>Parola d'ordine</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Password"
+              placeholder="Inserisci qui la tua password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="handwritten"
             />
           </Form.Group>
 
-          <Button variant="primary" type="submit">
-            Accedi
-          </Button>
+          <div className="text-end">
+            <button className="wax" type="submit">
+              Apri
+            </button>
+          </div>
         </Form>
-
-        <p className="handwritten mt-3 text-center">
-          Non hai ancora un taccuino?
-          <span
-            className="link ms-2 pointer oro"
-            onClick={() => navigate("/register")}
-          >
-            Parti da qui
-          </span>
-        </p>
-      </div>
-    </div>
+      </Container>
+      <p className="handwritten mt-3 text-center">
+        Non hai ancora un taccuino?
+        <span
+          className="link ms-2 pointer oro"
+          onClick={() => navigate("/register")}
+        >
+          Parti da qui
+        </span>
+      </p>
+    </Container>
   )
 }

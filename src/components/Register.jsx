@@ -1,10 +1,8 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
 import Loading from "./Loading"
 import Error from "./Error"
-import bg from "../assets/page-bg.svg"
 import { Col, Container, Row } from "react-bootstrap"
 
 export default function Register() {
@@ -76,79 +74,75 @@ export default function Register() {
 
   return (
     <>
-      <Container fluid className="register-layout">
-        {/* COLONNA MESSAGGI (fuori dalla pagina) */}
-        <Row className="messages-row px-3">
-          <Col xs={12} md={4} className="messages-col">
-            {isLoading && <Loading />}
-            {isError && <Error />}
+      {isLoading && <Loading />}
+      {isError && <Error />}
 
-            {errors.length > 0 && (
-              <div className="alert alert-danger handwritten">
-                {errors.map((err, i) => (
-                  <div key={i}>{err}</div>
-                ))}
-              </div>
-            )}
+      <Container>
+        <Container className="form-bg page-background pt-5 px-4">
+          <p className="h3 text-center mb-5 handwritten">
+            <strong>Il taccuino del viaggiatore</strong>
+          </p>
 
-            {isSuccess && (
-              <div className="alert alert-success handwritten">{isSuccess}</div>
-            )}
-          </Col>
-        </Row>
+          {errors.length > 0 && (
+            <div className="alert alert-danger handwritten">
+              {errors.map((err, i) => (
+                <div key={i}>{err}</div>
+              ))}
+            </div>
+          )}
 
-        {/* PAGINA DEL TACCUINO (form dentro) */}
-        <Container
-          className="leather-bg"
-          style={{ backgroundImage: `url(${bg})` }}
-        >
-          <p className="h3">Il mio taccuino del viaggiatore</p>
+          {isSuccess && (
+            <div className="alert alert-success handwritten">{isSuccess}</div>
+          )}
 
-          <Form className="handwritten form-content" onSubmit={handleSubmit}>
+          <Form className="form-content" onSubmit={handleSubmit}>
             <Form.Group className="mb-3 fs-4" controlId="formBasicUsername">
-              <Form.Label>Username</Form.Label>
+              <Form.Label>Nome</Form.Label>
               <Form.Control
                 type="text"
                 name="username"
-                placeholder="Inserisci l'username"
+                placeholder="Scrivi qui il tuo username"
                 value={form.username}
                 onChange={handleChange}
               />
             </Form.Group>
 
             <Form.Group className="mb-3 fs-4" controlId="formBasicEmail">
-              <Form.Label>Email</Form.Label>
+              <Form.Label>Indirizzo di posta</Form.Label>
               <Form.Control
                 type="email"
                 name="email"
-                placeholder="Inserisci email"
+                placeholder="Scrivi qui la tua email"
                 value={form.email}
                 onChange={handleChange}
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
+            <Form.Group className="mb-3 fs-4" controlId="formBasicPassword">
+              <Form.Label>Parola d'ordine</Form.Label>
               <Form.Control
                 type="password"
                 name="password"
-                placeholder="Password"
+                placeholder="Scrivi qui la tua password"
                 value={form.password}
                 onChange={handleChange}
               />
             </Form.Group>
 
-            <button className="wax" type="submit">
-              Registrati
-            </button>
+            <div className="text-end">
+              <button className="wax" type="submit">
+                Registrati
+              </button>
+            </div>
           </Form>
         </Container>
-      </Container>
 
-      <Container>
-        <p className="handwritten mt-3">
+        <p className="handwritten mt-3 text-center">
           Hai già un taccuino?
-          <span className="link" onClick={() => navigate("/login")}>
+          <span
+            className="link ms-2 pointer oro"
+            onClick={() => navigate("/login")}
+          >
             Accedi qui
           </span>
         </p>

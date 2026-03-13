@@ -12,7 +12,7 @@ import Diario from "./components/Diario.jsx"
 
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { setUser } from "./redux/store/authSlice"
+import { setUser, logout } from "./redux/store/authSlice"
 import ProtectedRoute from "./components/ProtectedRoute.jsx"
 
 function App() {
@@ -32,8 +32,10 @@ function App() {
 
         if (res.ok) {
           const data = await res.json()
-          // redux viene aggiornato con i dati dell'utente
           dispatch(setUser(data))
+          // Se il token non è valido o non si ha l'autorizzazione necessaria, viene eseguito il logout
+        } else if (res.status === 401 || res.status === 403) {
+          dispatch(logout())
         }
       } catch (err) {
         console.error("Ops, c'è stato un errore nel recuperare l'utente.", err)

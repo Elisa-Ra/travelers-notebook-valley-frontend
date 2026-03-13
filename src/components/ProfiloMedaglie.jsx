@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { ListGroup } from "react-bootstrap"
+import { BsAwardFill } from "react-icons/bs"
 
 // COMPONENTE CHE MOSTRA LE MEDAGLIE POSSEDUTE DALL'UTENTE
 export default function ProfiloMedaglie() {
@@ -26,7 +27,11 @@ export default function ProfiloMedaglie() {
   return (
     <>
       {/* SEZIONE MEDAGLIE */}
-      <h4 className="handwritten mt-4">Le mie medaglie</h4>
+      <h4 className="handwritten mt-4 text-center d-flex justify-content-center align-items-center gap-2">
+        <BsAwardFill className="oro" />
+        LE MIE MEDAGLIE
+        <BsAwardFill className="oro" />
+      </h4>
       <ListGroup className="mb-4">
         {medaglie.length === 0 && (
           <p className="text-muted">

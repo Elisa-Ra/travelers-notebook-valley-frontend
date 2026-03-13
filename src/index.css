@@ -2,7 +2,7 @@
 
 #root {
   min-height: 100vh; /* occupa tutta l’altezza della finestra */
-  background-color: #dcd6c9;
+  background-color: #eee8dd;
   color: #4a3f35;
   font-family: "EB Garamond", serif;
   display: flex;

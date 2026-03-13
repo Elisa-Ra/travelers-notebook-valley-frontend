@@ -1,15 +1,16 @@
 /* BACKGROUND CON LA TEXTURE PAGINA ORIZZONTALE */
 .page-background {
-  background-image: url("/page-bg-or.svg");
-  background-position: top center;
-  background-repeat: no-repeat;
-  background-size: 100% auto;
-}
-.page-background {
-  background: url("/page-bg-or.svg");
+  background: url("/page-bg.svg");
   background-size: cover;
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+.page-background-home {
+  background: url("/page-bg.svg");
+  background-size: cover;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  background-position: bottom center;
 }
 
 .page-background-v {
@@ -25,7 +26,7 @@
 
 /* NAVBAR */
 .navbar-color {
-  background-color: #6b6a4f !important;
+  background-color: #4a3f35 !important;
   color: #f2e8cf !important;
 }
 .navbar-color .navbar-nav .nav-link,
@@ -34,23 +35,51 @@
 }
 
 .navbar-color .navbar-nav .nav-link:hover,
-.navbar-color .navbar-brand:hover {
-  color: #c6a667 !important;
+.navbar-color .navbar-brand:hover,
+.navbar-color .navbar-nav .nav-link.active,
+.navbar-color .navbar-brand.active {
+  color: #e6b800 !important;
 }
 
+.dropdown-taccuino .dropdown-menu .dropdown-item.active,
+.dropdown-taccuino .dropdown-menu .dropdown-item:active {
+  background-color: #f5f1ea !important;
+  color: #4a3f35 !important;
+}
+.dropdown-taccuino .dropdown-menu .dropdown-item:hover {
+  background-color: #e6b800 !important;
+  color: #4a3f35 !important;
+}
+/* FOOTER */
+.footer-color {
+  background-color: #3b332c;
+  color: #f2e8cf;
+}
+.link {
+  color: #d8c79a;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.link:hover {
+  color: #e6b800;
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+}
 /* TESTI */
 .handwritten {
   font-family: "Caveat", cursive;
-  color: black;
+  color: #4a3f35;
 }
 /* testo colore oro */
 .oro {
-  color: #a68b54;
+  color: #e6b800;
   font-weight: 600;
 }
 
 .bg-oro {
-  background-color: #a68b54;
+  background-color: #e6b800;
+  color: #4a3f35;
 }
 /* FORM */
 /* form login */
@@ -75,7 +104,7 @@
 }
 
 /* form registrazione */
-.leather-bg {
+.form-bg {
   background-size: cover;
   background-position: bottom center;
   background-repeat: no-repeat;
@@ -168,6 +197,12 @@
   box-shadow:
     inset 0 1px 2px rgba(0, 0, 0, 0.5),
     0 6px 12px rgba(0, 0, 0, 0.4);
+  min-width: 80px;
+  min-height: 80px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
 }
 .wax:hover {
   transform: scale(1.07);
@@ -242,10 +277,44 @@
 }
 /* PAGINA ESPLORA */
 .selected-monumento {
-  background-color: #f7e7c1 !important;
-  border-left: 6px solid #c9a86a;
-  font-weight: 600;
-  transition: all 0.25s ease;
+  background-color: #f0ede6 !important;
+  border-left: 6px solid #e6b800 !important;
+  font-weight: 600 !important;
+  transition: all 0.25s ease !important;
+}
+/* card che contiene l'immagine del monumento */
+.card-monumento {
+  max-width: 600px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #fffdf7;
+}
+
+/* Placeholder per quando l'img non è presente */
+.placeholder-foto {
+  width: 100%;
+  height: 300px;
+  background: #f0ede6;
+  border: 2px dashed #d8c79a;
+  border-radius: 10px;
+  text-align: center;
+  padding: 20px;
+  color: #6b5e52;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .placeholder-foto {
+    height: 200px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .card-monumento {
+    max-width: 100%;
+  }
 }
 
 /* PAGINA ADMIN */

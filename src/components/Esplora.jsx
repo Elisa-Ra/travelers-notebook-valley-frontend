@@ -74,19 +74,28 @@ export default function Esplora() {
             <div className="dettaglio-monumento page-background px-5 py-3">
               <h2 className="handwritten mb-3 fs-1">{selected.nome}</h2>
 
-              <Card className="shadow-sm mb-4 mt-4">
-                <Card.Img
-                  src={selected.foto}
-                  alt={selected.nome}
-                  className="img-fluid"
-                />
+              <Card className="shadow-sm mb-4 mt-4 card-monumento">
+                {selected.foto ? (
+                  <Card.Img
+                    src={selected.foto}
+                    alt={selected.nome}
+                    className="img-fluid"
+                  />
+                ) : (
+                  <div className="placeholder-foto d-flex flex-column justify-content-center align-items-center">
+                    <p className="fs-4 mb-1">Immagine non disponibile</p>
+                    <p className="text-muted">
+                      Stiamo scattando la foto di questo luogo
+                    </p>
+                  </div>
+                )}
               </Card>
-              <div className="d-flex justify-content-between align-items-center mt-3">
+              <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3">
                 <h4 className="oro fw-bold mb-0">
                   <Badge bg="warning">{selected.nomeCategoria}</Badge>
                 </h4>
 
-                <p className="text-muted mb-0">
+                <p className="text-muted mb-0 mt-2 mt-md-0">
                   <BsCompassFill className="me-2" size={18} color="#1b8b32" />
                   {selected.posizione}
                 </p>

@@ -23,7 +23,7 @@ export default function Home() {
 
       <Gallery images={images} />
       <Container className="my-5">
-        <figure className="text-center my-5 pb-2">
+        <figure className="text-center my-5 p-3 page-background-home">
           <blockquote className="blockquote fs-1 handwritten pb-2">
             <q>
               Lo scopo di questo mio magnifico viaggio non è quello d'illudermi,
@@ -46,7 +46,7 @@ export default function Home() {
 
       {/* CONTAINER CHE RIMANDA AL LOGIN */}
       <Link to="/login" style={{ textDecoration: "none", color: "inherit" }}>
-        <Container className="text-center clickable-container my-5 page-background">
+        <Container className="text-center clickable-container my-5 page-background-home p-3">
           <p className="fs-1">Scrivi i tuoi ricordi, un luogo alla volta.</p>
           <p className="fs-4">Accedi per iniziare.</p>
         </Container>
