@@ -73,13 +73,17 @@ export default function Profilo() {
               user={user}
               onPostCreated={() => setRefreshPosts(!refreshPosts)}
             />
-            {/* Lista dei post presenti */}
-            <Posts refresh={refreshPosts} />
           </div>
         </Col>
 
         {/* Colonna vuota destra */}
         <Col xs={0} md={2} lg={3} className="p-0"></Col>
+        {/* DIARIO */}
+        <Col xs={12} className="px-0 mt-4">
+          <div className="diary-wrapper">
+            <Posts refresh={refreshPosts} />
+          </div>
+        </Col>
       </Row>
     </Container>
   )

@@ -57,7 +57,10 @@ export default function PaginaDiario({ onPostCreated }) {
     })
 
     if (!res.ok) {
-      showAlert("Errore nella creazione del post", "danger")
+      showAlert(
+        "Errore nella scrittura della pagina, riprova più tardi.",
+        "danger",
+      )
       return
     }
 
@@ -68,14 +71,14 @@ export default function PaginaDiario({ onPostCreated }) {
       const formData = new FormData()
       formData.append("file", foto)
 
-      await fetch(`http://localhost:3001/foto/${created.id}`, {
+      await fetch(`http://localhost:3001/posts/${created.id}/foto`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
       })
     }
 
-    showAlert("Post creato con successo!")
+    showAlert("La pagina è stata aggiunta al tuo diario!")
     onPostCreated()
 
     // resetto i campi
@@ -96,10 +99,13 @@ export default function PaginaDiario({ onPostCreated }) {
       {/* FORM NUOVO POST */}
       <h4 className="handwritten my-4">Scrivi una nuova pagina</h4>
 
-      <Form onSubmit={createPost}>
+      <Form onSubmit={createPost} className="page-background py-3 px-5">
         <Form.Group className="my-4">
-          <Form.Label>Titolo</Form.Label>
+          <Form.Label htmlFor="titolo-pagina">
+            <strong>Titolo</strong>
+          </Form.Label>
           <Form.Control
+            id="titolo-pagina"
             value={titolo}
             onChange={(e) => setTitolo(e.target.value)}
             required
@@ -107,8 +113,9 @@ export default function PaginaDiario({ onPostCreated }) {
         </Form.Group>
 
         <Form.Group className="my-4">
-          <Form.Label>Contenuto</Form.Label>
+          <Form.Label htmlFor="contenuto-pagina">Contenuto</Form.Label>
           <Form.Control
+            id="contenuto-pagina"
             as="textarea"
             rows={4}
             value={contenuto}
@@ -118,8 +125,9 @@ export default function PaginaDiario({ onPostCreated }) {
         </Form.Group>
 
         <Form.Group className="my-4">
-          <Form.Label>Monumento</Form.Label>
+          <Form.Label htmlFor="monumento-pagina">Monumento</Form.Label>
           <Form.Select
+            id="monumento-pagina"
             value={idMonumento}
             onChange={(e) => setIdMonumento(e.target.value)}
             required
@@ -135,8 +143,11 @@ export default function PaginaDiario({ onPostCreated }) {
         </Form.Group>
 
         <Form.Group className="my-4">
-          <Form.Label>Foto (opzionale)</Form.Label>
+          <Form.Label htmlFor="foto-pagina">
+            Foto &#40;opzionale&#41;
+          </Form.Label>
           <Form.Control
+            id="foto-pagina"
             type="file"
             onChange={(e) => setFoto(e.target.files[0])}
           />
@@ -144,7 +155,7 @@ export default function PaginaDiario({ onPostCreated }) {
 
         <div className="d-flex justify-content-end pe-2">
           <Button type="submit" className="wax mt-3">
-            Scrivi <BsVectorPen />
+            Scrivi <BsVectorPen className="ms-1" />
           </Button>
         </div>
       </Form>
