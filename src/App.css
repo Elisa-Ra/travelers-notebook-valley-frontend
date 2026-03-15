@@ -525,3 +525,10 @@
   display: flex;
   align-items: stretch;
 }
+.istruzioni-box {
+  background: #fff8e6;
+  border-left: 4px solid #e0a800;
+  border-radius: 6px;
+
+  line-height: 1.5;
+}

@@ -1,27 +1,36 @@
 import { useEffect, useState } from "react"
 import { Container, Card, Button } from "react-bootstrap"
-import ModificaPost from "./ModificaPost"
+import ModificaPost from "./PostModifica"
+import EliminaPost from "./PostElimina"
 import HTMLFlipBook from "react-pageflip"
+import MyAlert from "./MyAlert"
 
 export default function PostDiario({ refresh }) {
   const [posts, setPosts] = useState([])
   const token = localStorage.getItem("token")
 
+  // per modificare, eliminare il post selezionato
   const [showEdit, setShowEdit] = useState(false)
+  const [showDelete, setShowDelete] = useState(false)
   const [selectedPost, setSelectedPost] = useState(null)
 
-  // pagina corrente del flipbook
-  const postsPerPage = 1
-  const totalPages = Math.ceil(posts.length / postsPerPage)
+  // numero totale di pagine
+  const totalPages = posts.length
+
+  // alert
+  const [alertMessage, setAlertMessage] = useState("")
+  const [alertVariant, setAlertVariant] = useState("success")
 
   // creo una costante per la width della pagina così su mobile faccio apparire una pagina di diario e su desktop due
   const [pageWidth, setPageWidth] = useState(550)
   useEffect(() => {
     const updateWidth = () => {
       if (window.innerWidth < 768) {
-        setPageWidth(350) // mobile → una pagina
+        setPageWidth(350) // mobile una pagina
+      } else if (window.innerWidth < 992) {
+        setPageWidth(450)
       } else {
-        setPageWidth(550) // desktop → due pagine
+        setPageWidth(550) // desktop due pagine
       }
     }
 
@@ -46,8 +55,20 @@ export default function PostDiario({ refresh }) {
     if (token) fetchPosts()
   }, [token, refresh])
 
+  // elimina post
+  const handleDelete = (id) => {
+    setPosts((prev) => prev.filter((p) => p.id !== id))
+    setAlertVariant("danger")
+    setAlertMessage("La pagina è stata eliminata con successo!")
+  }
+
   return (
     <Container fluid className="py-1 mb-4">
+      <MyAlert
+        message={alertMessage}
+        variant={alertVariant}
+        onClose={() => setAlertMessage("")}
+      />
       {posts.length === 0 && (
         <p className="text-muted text-center">
           Le pagine sono ancora vuote... Scrivi la prima pagina del tuo diario!
@@ -56,6 +77,7 @@ export default function PostDiario({ refresh }) {
 
       {posts.length > 0 && (
         <HTMLFlipBook
+          key={pageWidth + "-" + posts.length}
           width={pageWidth}
           mobileScrollSupport={true}
           height={700}
@@ -66,7 +88,8 @@ export default function PostDiario({ refresh }) {
           style={{ margin: "0 auto" }}
         >
           {posts.map((p, index) => {
-            const pageNumber = index + 1 // numero pagina corretto
+            // numero pagina corrente
+            const pageNumber = index + 1
 
             return (
               <div
@@ -75,7 +98,7 @@ export default function PostDiario({ refresh }) {
               >
                 <h2 className="handwritten mb-3 fs-2">{p.titolo}</h2>
 
-                <Card className="shadow-sm mb-4 mt-4 card-diario">
+                <Card className="shadow-sm my-1 card-diario">
                   {p.fotoUrl ? (
                     <Card.Img
                       src={p.fotoUrl}
@@ -102,21 +125,31 @@ export default function PostDiario({ refresh }) {
                       {new Date(p.dataCreazione).toLocaleDateString()}
                     </small>
 
+                    <small className="text-muted">
+                      Pagina {pageNumber} di {totalPages}
+                    </small>
+                  </div>
+
+                  <div className="text-start mt-2">
                     <Button
-                      variant="outline-warning"
+                      variant="warning"
                       onClick={() => {
                         setSelectedPost(p)
                         setShowEdit(true)
                       }}
+                      className="me-3"
                     >
-                      Modifica pagina
+                      Riscrivi
                     </Button>
-                  </div>
-
-                  <div className="text-end mt-2">
-                    <small className="text-muted">
-                      Pagina {pageNumber} di {totalPages}
-                    </small>
+                    <Button
+                      variant="danger"
+                      onClick={() => {
+                        setSelectedPost(p)
+                        setShowDelete(true)
+                      }}
+                    >
+                      Cancella
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -125,51 +158,31 @@ export default function PostDiario({ refresh }) {
         </HTMLFlipBook>
       )}
 
-      {/* Modale */}
+      {/* Modale modifica */}
       {selectedPost && (
         <ModificaPost
           show={showEdit}
           onHide={() => setShowEdit(false)}
           post={selectedPost}
-          onSave={async ({ titolo, contenuto, fotoFile }) => {
-            // aggiorna testo
-            await fetch(`http://localhost:3001/posts/${selectedPost.id}`, {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify({
-                titolo,
-                contenuto,
-                idMonumento: selectedPost.idMonumento,
-              }),
-            })
-
-            // aggiorna foto
-            if (fotoFile) {
-              const fd = new FormData()
-              fd.append("file", fotoFile)
-
-              await fetch(
-                `http://localhost:3001/posts/${selectedPost.id}/foto`,
-                {
-                  method: "POST",
-                  headers: { Authorization: `Bearer ${token}` },
-                  body: fd,
-                },
-              )
-            }
-
-            // aggiorna localmente
+          onSave={({ titolo, contenuto }) => {
             setPosts((prev) =>
               prev.map((p) =>
                 p.id === selectedPost.id ? { ...p, titolo, contenuto } : p,
               ),
             )
-
-            setShowEdit(false)
+            setAlertVariant("success")
+            setAlertMessage("Pagina modificata con successo!")
           }}
+        />
+      )}
+
+      {/* Modale eliminazione */}
+      {selectedPost && (
+        <EliminaPost
+          show={showDelete}
+          onHide={() => setShowDelete(false)}
+          post={selectedPost}
+          onDelete={handleDelete}
         />
       )}
     </Container>

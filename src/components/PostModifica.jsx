@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react"
-import { Modal, Button, Form } from "react-bootstrap"
+import { Modal, Form } from "react-bootstrap"
 
-export default function ModificaPost({ show, onHide, post, onSave }) {
+export default function PostModifica({ show, onHide, post, onSave }) {
   const [titolo, setTitolo] = useState("")
   const [contenuto, setContenuto] = useState("")
   const [fotoFile, setFotoFile] = useState(null)
+  const token = localStorage.getItem("token")
 
   useEffect(() => {
     if (!post) return
@@ -17,19 +18,40 @@ export default function ModificaPost({ show, onHide, post, onSave }) {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    await onSave({
-      titolo,
-      contenuto,
-      fotoFile,
+    // aggiorna testo
+    await fetch(`http://localhost:3001/posts/${post.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        titolo,
+        contenuto,
+        idMonumento: post.idMonumento,
+      }),
     })
 
+    // aggiorna foto
+    if (fotoFile) {
+      const fd = new FormData()
+      fd.append("file", fotoFile)
+
+      await fetch(`http://localhost:3001/posts/${post.id}/foto`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: fd,
+      })
+    }
+
+    onSave({ titolo, contenuto })
     onHide()
   }
 
   return (
     <Modal show={show} onHide={onHide} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Modifica pagina del diario</Modal.Title>
+        <Modal.Title>Riscrivi pagina del diario</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -62,9 +84,11 @@ export default function ModificaPost({ show, onHide, post, onSave }) {
             />
           </Form.Group>
 
-          <Button variant="warning" type="submit" className="w-100">
-            Salva modifiche
-          </Button>
+          <div className="d-flex">
+            <button type="submit" className="wax mt-3 ms-auto">
+              Salva
+            </button>
+          </div>
         </Form>
       </Modal.Body>
     </Modal>

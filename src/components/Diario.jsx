@@ -4,7 +4,7 @@ import { Container, Row, Col } from "react-bootstrap"
 import Loading from "./Loading"
 import Error from "./Error"
 import Istruzioni from "./Istruzioni"
-import Pagina from "./PaginaDiario"
+import Pagina from "./PostAggiungi"
 import Posts from "./PostDiario"
 
 export default function Profilo() {
