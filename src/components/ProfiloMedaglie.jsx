@@ -29,13 +29,14 @@ export default function ProfiloMedaglie() {
       {/* SEZIONE MEDAGLIE */}
       <h4 className="handwritten mt-4 text-center d-flex justify-content-center align-items-center gap-2">
         <BsAwardFill className="oro" />
-        LE MIE MEDAGLIE
+        I MIEI ADESIVI
         <BsAwardFill className="oro" />
       </h4>
       <ListGroup className="mb-4">
         {medaglie.length === 0 && (
           <p className="text-muted">
-            Non hai ancora medaglie… continua a esplorare!
+            Non hai ancora nessun adesivo... Scrivi delle nuove pagine nel tuo
+            diario per provare a collezionarli tutti!
           </p>
         )}
 

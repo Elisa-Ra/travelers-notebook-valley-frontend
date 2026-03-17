@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { Container, Row, Col, Card } from "react-bootstrap"
+import { Container, Row, Col, Card, Collapse } from "react-bootstrap"
 import Loading from "../components/Loading"
 import Error from "../components/Error"
 import Medaglie from "../components/ProfiloMedaglie"
+import ProfiloModifica from "../components/ProfiloModifica"
+import MyAlert from "./MyAlert"
+import CollapseInfo from "./CollapseInfo"
 
 export default function Profilo() {
   const navigate = useNavigate()
@@ -11,6 +14,8 @@ export default function Profilo() {
   const [user, setUser] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isError, setIsError] = useState(false)
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [alertMessage, setAlertMessage] = useState("")
   const logout = () => {
     localStorage.removeItem("token")
     navigate("/login")
@@ -56,7 +61,21 @@ export default function Profilo() {
 
   return (
     <Container className="profile-layout my-3 page-background p-4">
+      <MyAlert
+        message={alertMessage}
+        variant="success"
+        onClose={() => setAlertMessage("")}
+      />
       <Row className="justify-content-center">
+        <ProfiloModifica
+          show={showEditModal}
+          onHide={() => setShowEditModal(false)}
+          user={user}
+          onSave={(updatedUser) => {
+            setUser(updatedUser)
+            setAlertMessage("Il tuo profilo è stato modificato con successo!")
+          }}
+        />
         <Col xs={12} sm={4} md={4} lg={4} className="profile">
           {/* Se l'avatar esiste, lo mostro */}
           {user.avatar && (
@@ -79,7 +98,10 @@ export default function Profilo() {
           <p className="handwritten"></p>
           <div className="mb-2 d-flex justify-content-between">
             <button className="wax mt-4" onClick={logout}>
-              Logout
+              Esci
+            </button>
+            <button className="wax mt-4" onClick={() => setShowEditModal(true)}>
+              Modifica
             </button>
             <button className="wax mt-4" onClick={() => navigate("/diario")}>
               Diario
@@ -87,7 +109,13 @@ export default function Profilo() {
           </div>
         </Col>
         <Col>
-          {/* Lista delle medaglie dell'utente */}
+          {/* Lista delle medaglie (adesivi) dell'utente */}
+          <CollapseInfo>
+            <h4>Benvenuto nel tuo profilo, {user.username}!</h4>
+            In questa pagina puoi modificare le tue informazioni, aprire il tuo
+            diario del viaggiatore ed ammirare la tua collezione di adesivi!{" "}
+            <br />
+          </CollapseInfo>
           <Medaglie />
         </Col>
       </Row>

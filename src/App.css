@@ -11,6 +11,7 @@
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   background-position: bottom center;
+  border: 1px solid #e6d7b8;
 }
 
 .page-background-v {
@@ -149,18 +150,26 @@
 }
 
 /* PER IL COMPONENT GALLERY */
-/* .gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+
+/* con l'overflow hidden non si vedono le immagini che "escono" dai bordi dello schermo */
+.gallery {
+  overflow: hidden;
+  width: 100%;
+}
+.scorrimento {
+  display: flex;
   gap: 24px;
-  padding: 20px 0;
+  width: max-content;
+  /* animazione di scroll sempre alla stessa velocità e si ripete all'infinito*/
+  animation: scroll 40s linear infinite;
 }
 
 .gallery-item {
+  width: 240px;
+  flex: 0 0 auto;
   overflow: hidden;
   border-radius: 12px;
 }
-
 .gallery-item img {
   width: 100%;
   height: 260px;
@@ -170,18 +179,43 @@
 
 .gallery-item:hover img {
   transform: scale(1.05);
-} */
+}
 
+/* Animazione dello scorrimento da destra a sinistra */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  /* Ho duplicato le immagini, sposto lo scorrimento a -50% che è la metà con le immagini duplicate*/
+  100% {
+    transform: translateX(calc(-50% - 12px));
+  }
+}
 /* HOME */
 
 /* Container cliccabili */
+.blockquote {
+  border-radius: 12px;
+  border: 1px solid #e6d7b8;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
 .clickable-container {
   cursor: pointer;
-  transition: transform 0.2s ease;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid #e6d7b8;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
 .clickable-container:hover {
-  transform: scale(1.02);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
 }
 
 /* BUTTON IN STILE CERALACCA */
@@ -527,8 +561,75 @@
 }
 .istruzioni-box {
   background: #fff8e6;
-  border-left: 4px solid #e0a800;
+  border-left: 4px solid #e6b800;
   border-radius: 6px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
 
-  line-height: 1.5;
+/* altro */
+.hero-split {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70vh;
+  padding: 2rem 4rem;
+  gap: 2rem;
+}
+
+.hero-text {
+  flex: 1;
+  max-width: 50%;
+  z-index: 2;
+}
+
+.hero-image {
+  flex: 1;
+  height: 100%;
+  background-image: url("./assets/img/bg-tempio2.jpg");
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 768px) {
+  .hero-split {
+    height: 70vh;
+    padding: 0;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* L'immagine diventa sfondo della hero */
+  .hero-split::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("./assets/img/tempio-dioscuri2.jpg");
+    background-size: cover;
+    background-position: center 70%;
+    filter: brightness(0.85);
+  }
+
+  /* Nascondo il div immagine */
+  .hero-image {
+    display: none;
+  }
+
+  /* Testo centrato sopra */
+  .hero-text {
+    max-width: 90%;
+    text-align: center;
+    color: #2a2a2a;
+    position: relative;
+    z-index: 2;
+    padding: 1rem 1.5rem;
+    background: rgba(255, 248, 230, 0.75);
+    border-radius: 12px;
+    backdrop-filter: blur(2px);
+  }
 }

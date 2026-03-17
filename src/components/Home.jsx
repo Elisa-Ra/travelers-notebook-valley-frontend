@@ -1,30 +1,43 @@
 import { Container } from "react-bootstrap"
 import Gallery from "./Gallery"
-import reactLogo from "../assets/img/react.svg"
+import tempioEra from "../assets/img/bg-era1.jpg"
+import tempioDioscuri from "../assets/img/wdioscuri.jpg"
+import tempioZeus from "../assets/img/wzeus.jpg"
+import tempioConcordia from "../assets/img/bg-tempio.jpg"
+import tempioErcole from "../assets/img/weracle.jpg"
 import { Link } from "react-router-dom"
 
 export default function Home() {
-  // METTERE MINI POLAROID TEMPLI
+  // POLAROID
   const images = [
-    { src: reactLogo, alt: "Img1" },
-    { src: reactLogo, alt: "Img2" },
-    { src: reactLogo, alt: "Img3" },
-    { src: reactLogo, alt: "Img4" },
-    { src: reactLogo, alt: "Img5" },
+    { src: tempioEra, alt: "Tempio di Era" },
+    { src: tempioDioscuri, alt: "Tempio dei Dioscuri" },
+    { src: tempioZeus, alt: "Tempio di Zeus" },
+    { src: tempioConcordia, alt: "Tempio della Concordia" },
+    { src: tempioErcole, alt: "Tempio di Ercole" },
   ]
 
   return (
     <>
-      <h1 className="text-center mt-4">
-        TRAVELLER'S NOTEBOOK - VALLEY EDITION
-      </h1>
+      {/* HERO SECTION */}
 
-      {/* <p className="h2 text-center">Benvenuto nel tuo taccuino di viaggio!</p> */}
+      <div className="hero-split">
+        <div className="hero-text">
+          <h1 className="handwritten">Traveller's Notebook - Valley Edition</h1>
+          <p className="fs-3 text-center">Ogni viaggio inizia da una pagina.</p>
+        </div>
 
-      <Gallery images={images} />
-      <Container className="my-5">
-        <figure className="text-center my-5 p-3 page-background-home">
-          <blockquote className="blockquote fs-1 handwritten pb-2">
+        <div className="hero-image"></div>
+      </div>
+
+      {/* GALLERY POLAROID */}
+      <Container className="my-3">
+        <Gallery images={images} />
+      </Container>
+      {/* CITAZIONE */}
+      <Container className="my-5 blockquote page-background-home">
+        <figure className="text-center p-3 ">
+          <blockquote className=" fs-1 handwritten pb-2">
             <q>
               Lo scopo di questo mio magnifico viaggio non è quello d'illudermi,
               bensì di conoscere me stesso nel rapporto con gli oggetti.
@@ -35,22 +48,29 @@ export default function Home() {
           </figcaption>
         </figure>
       </Container>
-      {/* METTERE BACKGROUND TEMPIO VALLE */}
+
       {/* CONTAINER CHE RIMANDA ALLA PAGINA DEI MONUMENTI */}
-      <Link to="/login" style={{ textDecoration: "none", color: "inherit" }}>
-        <Container className="text-center clickable-container my-5">
-          <p className="fs-1">Scopri dove ha inizio il tuo prossimo viaggio.</p>
+
+      <Container className="text-center clickable-container my-5">
+        <Link
+          to="/esplora"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <p className="fs-1">Scopri dove ha inizio il tuo viaggio.</p>
           <p className="fs-4"> Ogni luogo è una pagina da scrivere.</p>
-        </Container>
-      </Link>
+        </Link>
+      </Container>
 
       {/* CONTAINER CHE RIMANDA AL LOGIN */}
-      <Link to="/login" style={{ textDecoration: "none", color: "inherit" }}>
-        <Container className="text-center clickable-container my-5 page-background-home p-3">
-          <p className="fs-1">Scrivi i tuoi ricordi, un luogo alla volta.</p>
+
+      <Container className="text-center clickable-container my-5 page-background-home p-3">
+        <Link to="/login" style={{ textDecoration: "none", color: "inherit" }}>
+          <p className="fs-1">
+            Inizia a scrivere nel tuo personale diario di viaggio.
+          </p>
           <p className="fs-4">Accedi per iniziare.</p>
-        </Container>
-      </Link>
+        </Link>
+      </Container>
     </>
   )
 }

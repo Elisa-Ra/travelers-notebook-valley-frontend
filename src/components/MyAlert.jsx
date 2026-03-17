@@ -15,7 +15,7 @@ export default function MyAlert({ message, variant = "success", onClose }) {
   if (!message) return null
 
   return (
-    <Alert variant={variant} className="mb-3">
+    <Alert variant={variant} className="mb-3 text-center w-50 mx-auto">
       {message}
     </Alert>
   )
