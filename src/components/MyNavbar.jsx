@@ -1,5 +1,4 @@
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap"
-import { Link } from "react-router-dom"
 import { NavLink } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { logout } from "../redux/store/authSlice"
@@ -42,6 +41,7 @@ function MyNavbar() {
                 title={user.username}
                 id="user-dropdown"
                 className="dropdown-taccuino"
+                align="end"
               >
                 <NavDropdown.Item as={NavLink} to="/profilo">
                   Profilo
@@ -49,7 +49,7 @@ function MyNavbar() {
 
                 {user.ruolo === "ADMIN" && (
                   <NavDropdown.Item as={NavLink} to="/admin">
-                    Admin Panel
+                    Pannello amministratore
                   </NavDropdown.Item>
                 )}
 

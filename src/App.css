@@ -51,6 +51,7 @@
   background-color: #e6b800 !important;
   color: #4a3f35 !important;
 }
+
 /* FOOTER */
 .footer-color {
   background-color: #3b332c;
@@ -69,7 +70,9 @@
 }
 /* TESTI */
 .handwritten {
-  font-family: "Caveat", cursive;
+  font-family: "Patrick Hand", cursive;
+  font-weight: 400;
+  font-style: normal;
   color: #4a3f35;
 }
 /* testo colore oro */
@@ -217,7 +220,7 @@
   transform: translateY(-4px);
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
 }
-
+/* PULSANTI */
 /* BUTTON IN STILE CERALACCA */
 .wax {
   background: #ce0000;
@@ -384,24 +387,29 @@
   border-left: 4px solid #c9a86a !important;
   padding-left: 8px;
 }
+/* TABS */
 
-/* menu laterale pannello amministratore*/
-/* Desktop*/
-.admin-sidebar {
-  min-height: 100dvh;
-  position: relative;
+.tabs-linguette .nav-link {
+  background: #f2e8cf;
+  border: 1px solid #d6c7a1;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  padding: 10px 18px;
+  color: #4a3f35;
+  font-weight: 600;
+  margin-right: 6px;
+}
+
+.tabs-linguette .nav-link.active {
   background: #fff;
-  box-shadow: inset -6px 0 8px rgba(0, 0, 0, 0.08);
+  border-bottom: 2px solid #fff;
 }
 
-/* Mobile */
-@media (max-width: 768px) {
-  .admin-sidebar {
-    min-height: auto;
-    height: auto;
-  }
+.tabs-linguette .nav-tabs {
+  border-bottom: 2px solid #d6c7a1;
 }
 
+/*  */
 .istruzioni {
   max-width: "400px";
   width: "100%";

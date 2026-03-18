@@ -233,7 +233,7 @@ export default function ManageMonuments() {
   }
 
   return (
-    <div className="w-75 mx-auto">
+    <div className="mx-auto page-background p-4">
       {/* messaggio di alert */}
       <MyAlert
         message={alertMessage}
@@ -244,7 +244,7 @@ export default function ManageMonuments() {
       <h2 className="handwritten mb-4 text-center mt-2">Gestione Monumenti</h2>
 
       {/* FORM PER LA CREAZIONE DI UN MONUMENTO*/}
-      <Form onSubmit={createMonumento} className="mb-4 mx-auto">
+      <Form onSubmit={createMonumento} className="mb-4 mx-auto w-75">
         <Form.Group className="mb-3">
           <Form.Label htmlFor="nome">Nome</Form.Label>
           <Form.Control
@@ -308,36 +308,51 @@ export default function ManageMonuments() {
           />
         </Form.Group>
 
-        <div className="d-flex">
-          <Button type="submit" className="wax mt-3 ms-auto">
+        <div className="d-flex justify-content-end">
+          <Button type="submit" variant="success" className="mt-3 ">
             Aggiungi
           </Button>
         </div>
       </Form>
 
       {/* LISTA DEI MONUMENTI */}
-      <ListGroup className=" mx-auto">
+      <ListGroup>
         {monumenti.map((mon) => (
           <ListGroup.Item
             key={mon.id}
-            className="d-flex justify-content-between align-items-center"
+            className="d-flex justify-content-between align-items-center py-3"
           >
-            <span className="d-flex align-items-center gap-2">
+            {/* COLONNA SINISTRA */}
+            <div className="d-flex align-items-center gap-3">
               <img
                 src={mon.foto}
                 alt={mon.nome}
-                style={{ width: "40px", height: "40px", objectFit: "contain" }}
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  objectFit: "contain",
+                  flexShrink: 0,
+                }}
               />
-              <strong>{mon.nome}</strong> — {mon.nomeCategoria}
-            </span>
+              <div className="d-flex flex-column">
+                <strong className="fs-5">{mon.nome}</strong>
+                <span className="text-muted">{mon.descrizione}</span>
+                <span>{mon.nomeCategoria}</span>
+              </div>
+            </div>
 
-            <div>
-              <Button className="btn-sm me-2 wax" onClick={() => openEdit(mon)}>
+            {/* COLONNA DESTRA */}
+            <div className="d-flex flex-column align-items-end gap-2">
+              <Button
+                className="btn-sm"
+                variant="warning"
+                onClick={() => openEdit(mon)}
+              >
                 Modifica
               </Button>
 
               <Button
-                className="btn-sm wax"
+                className="btn-sm"
                 variant="danger"
                 onClick={() => deleteMonumento(mon.id)}
               >
@@ -425,7 +440,7 @@ export default function ManageMonuments() {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button className="wax" onClick={updateMonumento}>
+          <Button variant="success" onClick={updateMonumento}>
             Salva
           </Button>
         </Modal.Footer>

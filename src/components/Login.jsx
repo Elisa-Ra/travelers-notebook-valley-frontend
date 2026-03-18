@@ -71,9 +71,7 @@ export default function Login() {
       {isLoading && <Loading />}
       {isError && <ErrorMessage />}
       <Container className="form-bg page-background pt-5 px-4">
-        <p className="h3 text-center mb-5 handwritten">
-          <strong>Apri il tuo taccuino </strong>
-        </p>
+        <p className="h3 text-center mb-5 handwritten">Apri il tuo diario</p>
 
         <Form className="form-content flex-grow-1 " onSubmit={handleSubmit}>
           <Form.Group className="mb-3 fs-4" controlId="formBasicEmail">
@@ -104,7 +102,7 @@ export default function Login() {
         </Form>
       </Container>
       <p className="handwritten mt-3 text-center">
-        Non hai ancora un taccuino?
+        Non hai ancora un diario?
         <span
           className="link ms-2 pointer oro"
           onClick={() => navigate("/register")}

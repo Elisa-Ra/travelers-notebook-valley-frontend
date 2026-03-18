@@ -1,17 +1,15 @@
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { Container, Row, Col, ListGroup } from "react-bootstrap"
+import { Container, Row, Col, ListGroup, Tabs, Tab } from "react-bootstrap"
 import Loading from "../components/Loading"
 import Error from "../components/Error"
 import Categorie from "./GestioneCategorie"
 import Monumenti from "./GestioneMonumenti"
 import Medaglie from "./GestioneMedaglie"
-import { logout } from "../redux/store/authSlice"
 
 export default function Admin() {
   const navigate = useNavigate()
-  const dispatch = useDispatch() // per inviare azioni a redux
 
   // leggo i dati globali da redux  (l'user ed il token)
   const user = useSelector((state) => state.auth.user)
@@ -43,61 +41,23 @@ export default function Admin() {
   // Se l'user non ha il ruolo admin, faccio apparire l'errore
   if (user.ruolo !== "ADMIN") return <Error />
 
-  // LOGOUT, (da authSlice) rimuove token ed user e reindirizza alla pagina di login
-  const handleLogout = () => {
-    dispatch(logout())
-    navigate("/login")
-  }
-
   return (
-    <Container fluid className="profile-layout page-background">
+    <Container fluid className="profile-layout ">
       <Row>
-        {/* MENU LATERALE */}
-        <Col
-          xs={12}
-          md={4}
-          className="bg-white p-3 d-flex flex-column admin-sidebar"
-        >
-          <div className="flex-grow-1">
-            <h3 className="mb-4">Pannello amministratore</h3>
+        <Col xs={12} className="p-4">
+          <h3 className="mb-4 text-center">Pannello amministratore</h3>
 
-            <ListGroup variant="flush" className="lista-monumenti">
-              <ListGroup.Item
-                action
-                onClick={() => setSection("categorie")}
-                className={`lista ${section === "categorie" ? "active-lista" : ""}`}
-              >
-                Categorie
-              </ListGroup.Item>
-              <ListGroup.Item
-                action
-                onClick={() => setSection("medaglie")}
-                className={`lista ${section === "medaglie" ? "active-lista" : ""}`}
-              >
-                Medaglie
-              </ListGroup.Item>
+          <Tabs
+            activeKey={section}
+            onSelect={(k) => setSection(k)}
+            className="tabs-linguette"
+            justify
+          >
+            <Tab eventKey="categorie" title="Categorie" />
+            <Tab eventKey="medaglie" title="Medaglie" />
+            <Tab eventKey="monumenti" title="Monumenti" />
+          </Tabs>
 
-              <ListGroup.Item
-                action
-                onClick={() => setSection("monumenti")}
-                className={`lista ${section === "monumenti" ? "active-lista" : ""}`}
-              >
-                Monumenti
-              </ListGroup.Item>
-            </ListGroup>
-          </div>
-
-          <div className="d-flex justify-content-between align-items-center">
-            <p className="mb-0 handwritten fs-2">{user.username}</p>
-
-            <button className="wax" onClick={handleLogout}>
-              Logout
-            </button>
-          </div>
-        </Col>
-
-        {/* CONTENUTO CENTRALE */}
-        <Col xs={12} md={8} className="page-background p-4">
           {section === "categorie" && <Categorie />}
           {section === "medaglie" && <Medaglie />}
           {section === "monumenti" && <Monumenti />}

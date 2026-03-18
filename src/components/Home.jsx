@@ -30,10 +30,6 @@ export default function Home() {
         <div className="hero-image"></div>
       </div>
 
-      {/* GALLERY POLAROID */}
-      <Container className="my-3">
-        <Gallery images={images} />
-      </Container>
       {/* CITAZIONE */}
       <Container className="my-5 blockquote page-background-home">
         <figure className="text-center p-3 ">
@@ -51,13 +47,14 @@ export default function Home() {
 
       {/* CONTAINER CHE RIMANDA ALLA PAGINA DEI MONUMENTI */}
 
-      <Container className="text-center clickable-container my-5">
+      <Container className="text-center clickable-container my-5 py-2">
         <Link
           to="/esplora"
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <p className="fs-1">Scopri dove ha inizio il tuo viaggio.</p>
-          <p className="fs-4"> Ogni luogo è una pagina da scrivere.</p>
+          <Gallery images={images} />
+          <p className="fs-4 mt-4"> Lasciati ispirare.</p>
         </Link>
       </Container>
 

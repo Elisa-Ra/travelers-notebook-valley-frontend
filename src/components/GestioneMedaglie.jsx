@@ -4,11 +4,13 @@ import MyAlert from "./MyAlert"
 
 export default function ManageMedaglie() {
   const [medaglie, setMedaglie] = useState([])
+  const [monumenti, setMonumenti] = useState([])
 
   // stati per la creazione
   const [nome, setNome] = useState("")
   const [descrizione, setDescrizione] = useState("")
   const [icona, setIcona] = useState(null)
+  const [idMonumento, setIdMonumento] = useState("")
 
   // stati per la modifica
   const [showEdit, setShowEdit] = useState(false)
@@ -17,6 +19,7 @@ export default function ManageMedaglie() {
     nome: "",
     descrizione: "",
     icona: "",
+    idMonumento: "",
   })
 
   // alert
@@ -48,12 +51,24 @@ export default function ManageMedaglie() {
     fetchMedaglie()
   }, [token])
 
+  // GET monumenti
+  useEffect(() => {
+    const fetchMonumenti = async () => {
+      const res = await fetch("http://localhost:3001/monumento")
+      if (res.ok) {
+        const data = await res.json()
+        setMonumenti(data)
+      }
+    }
+    fetchMonumenti()
+  }, [])
+
   // CREAZIONE medaglia
   const createMedaglia = async (e) => {
     e.preventDefault()
 
     // creo la medaglia senza icona inizialmente
-    const dto = { nome, descrizione, icona: "" }
+    const dto = { nome, descrizione, icona: "", idMonumento }
 
     const res = await fetch("http://localhost:3001/medaglie", {
       method: "POST",
@@ -110,6 +125,7 @@ export default function ManageMedaglie() {
       nome: m.nome,
       descrizione: m.descrizione,
       icona: m.icona,
+      idMonumento: m.monumento?.id || "",
     })
     setShowEdit(true)
   }
@@ -120,6 +136,7 @@ export default function ManageMedaglie() {
       nome: editData.nome,
       descrizione: editData.descrizione,
       icona: editData.icona,
+      idMonumento: editData.idMonumento,
     }
 
     // Aggiorno i dati testuali
@@ -183,7 +200,7 @@ export default function ManageMedaglie() {
   }
 
   return (
-    <div>
+    <div className="page-background p-4">
       <MyAlert
         message={alertMessage}
         variant={alertVariant}
@@ -193,7 +210,7 @@ export default function ManageMedaglie() {
       <h2 className="handwritten mb-4 text-center mt-2">Gestione Medaglie</h2>
 
       {/* FORM CREAZIONE */}
-      <Form onSubmit={createMedaglia} className="mb-4 w-50 mx-auto">
+      <Form onSubmit={createMedaglia} className="mb-4 w-75 mx-auto">
         <Form.Group>
           <Form.Label htmlFor="nomeMedaglia">Nome</Form.Label>
           <Form.Control
@@ -217,6 +234,23 @@ export default function ManageMedaglie() {
             required
           />
         </Form.Group>
+        <Form.Group>
+          <Form.Label htmlFor="monumentoAssociato">
+            Monumento associato
+          </Form.Label>
+          <Form.Select
+            id="monumentoAssociato"
+            value={idMonumento}
+            onChange={(e) => setIdMonumento(e.target.value)}
+          >
+            <option value="">Nessuno</option>
+            {monumenti.map((mon) => (
+              <option key={mon.id} value={mon.id}>
+                {mon.nome}
+              </option>
+            ))}
+          </Form.Select>
+        </Form.Group>
 
         <Form.Group>
           <Form.Label htmlFor="iconaMedaglia">Icona</Form.Label>
@@ -228,34 +262,51 @@ export default function ManageMedaglie() {
           />
         </Form.Group>
 
-        <Button type="submit" className="wax mt-3">
-          Aggiungi Medaglia
-        </Button>
+        <div className="d-flex justify-content-end">
+          <Button type="submit" variant="success" className="mt-3 ">
+            Aggiungi
+          </Button>
+        </div>
       </Form>
 
-      {/* LISTA DELLE MEDAGLIE */}
+      {/* LISTA DELLE MEDAGLIE (adesivi) */}
       <ListGroup>
         {medaglie.map((m) => (
           <ListGroup.Item
             key={m.id}
-            className="d-flex justify-content-between align-items-center"
+            className="d-flex justify-content-between align-items-start py-3"
           >
-            <span className="d-flex align-items-center gap-2">
+            {/* COLONNA SINISTRA */}
+            <div className="d-flex align-items-start gap-3">
               <img
                 src={m.icona}
                 alt={m.nome}
-                style={{ width: "40px", height: "40px", objectFit: "contain" }}
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  objectFit: "contain",
+                  flexShrink: 0,
+                }}
               />
-              <strong>{m.nome}</strong> — {m.descrizione}
-            </span>
 
-            <div>
-              <Button className="btn-sm me-2 wax" onClick={() => openEdit(m)}>
+              <div className="d-flex flex-column">
+                <strong className="fs-5">{m.nome}</strong>
+                <span className="text-muted">{m.descrizione}</span>
+              </div>
+            </div>
+
+            {/* COLONNA DESTRA */}
+            <div className="d-flex flex-column align-items-end gap-2">
+              <Button
+                className="btn-sm"
+                variant="warning"
+                onClick={() => openEdit(m)}
+              >
                 Modifica
               </Button>
 
               <Button
-                className="btn-sm wax"
+                className="btn-sm"
                 variant="danger"
                 onClick={() => deleteMedaglia(m.id)}
               >
@@ -301,6 +352,25 @@ export default function ManageMedaglie() {
                 }
               />
             </Form.Group>
+            <Form.Group>
+              <Form.Label htmlFor="monumentoAssociatoMod">
+                Monumento associato
+              </Form.Label>
+              <Form.Select
+                id="monumentoAssociatoMod"
+                value={editData.idMonumento}
+                onChange={(e) =>
+                  setEditData({ ...editData, idMonumento: e.target.value })
+                }
+              >
+                <option value="">Nessuno</option>
+                {monumenti.map((mon) => (
+                  <option key={mon.id} value={mon.id}>
+                    {mon.nome}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
 
             <Form.Group>
               <Form.Label htmlFor="iconaMedagliaMod">Nuova icona</Form.Label>
@@ -317,7 +387,7 @@ export default function ManageMedaglie() {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button className="wax" onClick={updateMedaglia}>
+          <Button variant="success" onClick={updateMedaglia}>
             Salva
           </Button>
         </Modal.Footer>

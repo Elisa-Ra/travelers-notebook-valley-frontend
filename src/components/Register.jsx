@@ -48,7 +48,7 @@ export default function Register() {
           setErrors(data.errors)
         } else {
           setErrors([
-            "Ops, c'è stato un errore nella registrazione al tuo taccuino di viaggio.",
+            "Ops, c'è stato un errore nella registrazione al tuo diario di viaggio.",
           ])
         }
         setIsError(true)
@@ -80,7 +80,7 @@ export default function Register() {
       <Container>
         <Container className="form-bg page-background pt-5 px-4">
           <p className="h3 text-center mb-5 handwritten">
-            <strong>Il taccuino del viaggiatore</strong>
+            Il mio primo diario del viaggiatore
           </p>
 
           {errors.length > 0 && (
@@ -138,7 +138,7 @@ export default function Register() {
         </Container>
 
         <p className="handwritten mt-3 text-center">
-          Hai già un taccuino?
+          Hai già un diario?
           <span
             className="link ms-2 pointer oro"
             onClick={() => navigate("/login")}

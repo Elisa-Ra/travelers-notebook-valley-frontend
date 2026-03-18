@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
-import { ListGroup } from "react-bootstrap"
+import { ListGroup, ProgressBar } from "react-bootstrap"
 import { BsAwardFill } from "react-icons/bs"
 
 // COMPONENTE CHE MOSTRA LE MEDAGLIE POSSEDUTE DALL'UTENTE
 export default function ProfiloMedaglie() {
   const [medaglie, setMedaglie] = useState([])
+  const [totalMedaglie, setTotalMedaglie] = useState(0)
 
   const token = localStorage.getItem("token")
 
@@ -23,7 +24,22 @@ export default function ProfiloMedaglie() {
 
     if (token) fetchMedaglie()
   }, [token])
+  // Recupero il numero totale di medaglie
+  useEffect(() => {
+    const fetchTotal = async () => {
+      const res = await fetch("http://localhost:3001/medaglie", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        setTotalMedaglie(data.length)
+      }
+    }
 
+    fetchTotal()
+  }, [])
+  const percentuale =
+    totalMedaglie > 0 ? (medaglie.length / totalMedaglie) * 100 : 0
   return (
     <>
       {/* SEZIONE MEDAGLIE */}
@@ -32,6 +48,18 @@ export default function ProfiloMedaglie() {
         I MIEI ADESIVI
         <BsAwardFill className="oro" />
       </h4>
+      {/* progress bar */}
+      <div className="my-4 text-center">
+        <ProgressBar
+          now={percentuale}
+          label={`${Math.round(percentuale)}%`}
+          variant="success"
+          style={{ height: "25px", fontWeight: "bold" }}
+        />
+        <p className="mb-1">
+          Hai collezionato {medaglie.length} adesivi su {totalMedaglie}!
+        </p>
+      </div>
       <ListGroup className="mb-4">
         {medaglie.length === 0 && (
           <p className="text-muted">
@@ -42,13 +70,13 @@ export default function ProfiloMedaglie() {
 
         {medaglie.map((m) => (
           <ListGroup.Item key={m.id} className="d-flex align-items-start gap-4">
-            {/* COLONNA SINISTRA ICONA */}
+            {/* colonna sinistra */}
 
             <div className="medaglia-wrapper">
               <img src={m.icona} alt={m.nome} className="medaglia-icona" />
             </div>
 
-            {/* COLONNA DESTRA */}
+            {/* colonna destra */}
             <div className="flex-grow-1">
               {/* Sopra */}
               <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
@@ -65,7 +93,7 @@ export default function ProfiloMedaglie() {
                   {m.nome}
                 </div>
 
-                {/* data */}
+                {/* data di conferimento*/}
                 {m.dataConferimento && (
                   <div
                     className="text-muted mt-1 mt-md-0"
@@ -76,7 +104,7 @@ export default function ProfiloMedaglie() {
                 )}
               </div>
 
-              {/* sotto descrizione */}
+              {/* descrizione */}
               <div className="mt-1">{m.descrizione}</div>
             </div>
           </ListGroup.Item>

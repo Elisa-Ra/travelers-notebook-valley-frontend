@@ -104,11 +104,11 @@ export default function ManageCategories() {
   }
 
   return (
-    <div>
+    <div className="page-background p-4">
       <h2 className="handwritten mb-4 text-center mt-2">Gestione Categorie</h2>
 
       {/* FORM PER LA CREAZIONE DI UNA CATEGORIA*/}
-      <Form onSubmit={createCategoria} className="mb-4 w-50 mx-auto">
+      <Form onSubmit={createCategoria} className="mb-4 w-75 mx-auto">
         <Form.Group>
           <Form.Label htmlFor="nomeCategoria">Nuova Categoria</Form.Label>
           <Form.Control
@@ -117,14 +117,15 @@ export default function ManageCategories() {
             type="text"
             value={newCategoria}
             onChange={(e) => setNewCategoria(e.target.value)}
-            placeholder="Es. Monumenti, Musei..."
+            placeholder="Es. Monumento, Museo, Mostra..."
             required
           />
         </Form.Group>
-
-        <Button type="submit" className="wax mt-3">
-          Aggiungi Categoria
-        </Button>
+        <div className="d-flex justify-content-end">
+          <Button type="submit" variant="success" className="mt-3 ">
+            Aggiungi
+          </Button>
+        </div>
       </Form>
 
       {/* LISTA DELLE CATEGORIE */}
@@ -137,7 +138,7 @@ export default function ManageCategories() {
             {editingId === cat.id ? (
               <input
                 type="text"
-                className="form-control"
+                className="form-control w-75"
                 value={editingValue}
                 onChange={(e) => setEditingValue(e.target.value)}
               />
@@ -148,14 +149,16 @@ export default function ManageCategories() {
             <div>
               {editingId === cat.id ? (
                 <Button
-                  className="btn-sm me-2 wax"
+                  className="btn-sm me-2 "
+                  variant="success"
                   onClick={() => updateCategoria(cat.id)}
                 >
                   Salva
                 </Button>
               ) : (
                 <Button
-                  className="btn-sm me-2 wax"
+                  className="btn-sm me-2 "
+                  variant="warning"
                   onClick={() => {
                     setEditingId(cat.id)
                     setEditingValue(cat.categoria)
@@ -166,7 +169,7 @@ export default function ManageCategories() {
               )}
 
               <Button
-                className="btn-sm wax"
+                className="btn-sm "
                 variant="danger"
                 onClick={() => deleteCategoria(cat.id)}
               >
