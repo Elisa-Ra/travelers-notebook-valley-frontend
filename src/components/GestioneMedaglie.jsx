@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Form, Button, ListGroup, Modal } from "react-bootstrap"
 import MyAlert from "./MyAlert"
+import MyLoading from "./Loading"
 
 export default function ManageMedaglie() {
   const [medaglie, setMedaglie] = useState([])
@@ -25,6 +26,8 @@ export default function ManageMedaglie() {
   // alert
   const [alertMessage, setAlertMessage] = useState("")
   const [alertVariant, setAlertVariant] = useState("success")
+  // loading
+  const [loading, setLoading] = useState(false)
 
   const token = localStorage.getItem("token")
 
@@ -132,57 +135,62 @@ export default function ManageMedaglie() {
 
   // MODIFICA medaglia
   const updateMedaglia = async () => {
-    const dto = {
-      nome: editData.nome,
-      descrizione: editData.descrizione,
-      icona: editData.icona,
-      idMonumento: editData.idMonumento,
-    }
-
-    // Aggiorno i dati testuali
-    const res = await fetch(`http://localhost:3001/medaglie/${editData.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(dto),
-    })
-
-    if (res.ok) {
-      const updated = await res.json()
-      setMedaglie((prev) =>
-        prev.map((m) => (m.id === updated.id ? updated : m)),
-      )
-      showAlert("La medaglia è stata aggiornata!")
-    }
-
-    // Se il nuovo file è stato caricato, modifico l'icona
-    if (editData.newIcon) {
-      const formData = new FormData()
-      formData.append("file", editData.newIcon)
-
-      const uploadRes = await fetch(
-        `http://localhost:3001/medaglie/${editData.id}/icona`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        },
-      )
-
-      if (uploadRes.ok) {
-        const updatedIcon = await uploadRes.json()
-        // aggiorno la lista
-        setMedaglie((prev) =>
-          prev.map((m) => (m.id === updatedIcon.id ? updatedIcon : m)),
-        )
-        showAlert("La medaglia è stata aggiornata con successo!")
+    setLoading(true)
+    try {
+      const dto = {
+        nome: editData.nome,
+        descrizione: editData.descrizione,
+        icona: editData.icona,
+        idMonumento: editData.idMonumento,
       }
+
+      // Aggiorno i dati testuali
+      const res = await fetch(`http://localhost:3001/medaglie/${editData.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(dto),
+      })
+
+      if (res.ok) {
+        const updated = await res.json()
+        setMedaglie((prev) =>
+          prev.map((m) => (m.id === updated.id ? updated : m)),
+        )
+      }
+
+      // Se il nuovo file è stato caricato, modifico l'icona
+      if (editData.newIcon) {
+        const formData = new FormData()
+        formData.append("file", editData.newIcon)
+
+        const uploadRes = await fetch(
+          `http://localhost:3001/medaglie/${editData.id}/icona`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            body: formData,
+          },
+        )
+
+        if (uploadRes.ok) {
+          const updatedIcon = await uploadRes.json()
+          // aggiorno la lista
+          setMedaglie((prev) =>
+            prev.map((m) => (m.id === updatedIcon.id ? updatedIcon : m)),
+          )
+        }
+      }
+      showAlert("La medaglia è stata aggiornata con successo!")
+    } catch {
+      showAlert("Errore durante l'aggiornamento", "danger")
     }
 
+    setLoading(false)
     setShowEdit(false)
   }
 
@@ -325,6 +333,11 @@ export default function ManageMedaglie() {
 
         <Modal.Body>
           <Form>
+            {loading && (
+              <div className="d-flex justify-content-center mb-3">
+                <MyLoading />
+              </div>
+            )}
             <Form.Group>
               <Form.Label htmlFor="nomeMedagliaMod">Nome</Form.Label>
               <Form.Control
