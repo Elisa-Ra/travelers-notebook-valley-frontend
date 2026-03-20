@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
-import { Form, Button, ListGroup, Modal } from "react-bootstrap"
+import { Form, Button, ListGroup, Modal, Container } from "react-bootstrap"
 import MyAlert from "./MyAlert"
+import PostChart from "./PostChart"
 
 // PAGINA PER LA GESTIONE DEI MONUMENTI (SOLO ADMIN)
-export default function ManageMonuments() {
+export default function GestioneMonumenti() {
   // Liste dei monumenti e delle categorie (dal backend)
   const [monumenti, setMonumenti] = useState([])
   const [categorie, setCategorie] = useState([])
@@ -234,14 +235,18 @@ export default function ManageMonuments() {
 
   return (
     <div className="mx-auto page-background p-4">
+      <h2 className="handwritten mb-4 text-center mt-2">Gestione Monumenti</h2>
+
+      <Container className="my-5 bg-white pb-2" style={{ minHeight: 500 }}>
+        <PostChart />
+      </Container>
+      <h3 className="text-center mt-5 handwritten">Aggiungi un monumento</h3>
       {/* messaggio di alert */}
       <MyAlert
         message={alertMessage}
         variant={alertVariant}
         onClose={() => setAlertMessage("")}
       />
-
-      <h2 className="handwritten mb-4 text-center mt-2">Gestione Monumenti</h2>
 
       {/* FORM PER LA CREAZIONE DI UN MONUMENTO*/}
       <Form onSubmit={createMonumento} className="mb-4 mx-auto w-75">

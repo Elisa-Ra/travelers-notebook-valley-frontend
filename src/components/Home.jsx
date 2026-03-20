@@ -1,4 +1,4 @@
-import { Container } from "react-bootstrap"
+import { Container, Row, Col } from "react-bootstrap"
 import Gallery from "./Gallery"
 import tempioEra from "../assets/img/bg-era1.jpg"
 import tempioDioscuri from "../assets/img/wdioscuri.jpg"
@@ -62,10 +62,22 @@ export default function Home() {
 
       <Container className="text-center clickable-container my-5 page-background-home p-3">
         <Link to="/login" style={{ textDecoration: "none", color: "inherit" }}>
-          <p className="fs-1">
-            Inizia a scrivere nel tuo personale diario di viaggio.
-          </p>
-          <p className="fs-4">Accedi per iniziare.</p>
+          <Row>
+            <Col xs={12} md={9} className="text-center">
+              <p className="fs-1">
+                Inizia a scrivere nel tuo personale diario di viaggio.
+              </p>
+              <p className="fs-4">Accedi per iniziare.</p>
+            </Col>
+
+            <Col xs={12} md={3} className="text-center">
+              <img
+                src="src\assets\img\diario.svg"
+                alt="Diario"
+                className="diario"
+              />
+            </Col>
+          </Row>
         </Link>
       </Container>
     </>

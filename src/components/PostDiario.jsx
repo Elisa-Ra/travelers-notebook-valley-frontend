@@ -4,6 +4,7 @@ import ModificaPost from "./PostModifica"
 import EliminaPost from "./PostElimina"
 import HTMLFlipBook from "react-pageflip"
 import MyAlert from "./MyAlert"
+import DiarioPdf from "./DiarioPDF"
 
 export default function PostDiario({ refresh }) {
   const [posts, setPosts] = useState([])
@@ -76,86 +77,93 @@ export default function PostDiario({ refresh }) {
       )}
 
       {posts.length > 0 && (
-        <HTMLFlipBook
-          key={pageWidth + "-" + posts.length}
-          width={pageWidth}
-          mobileScrollSupport={true}
-          height={700}
-          minWidth={300}
-          minHeight={400}
-          maxHeight={1200}
-          className="diary-book"
-          style={{ margin: "0 auto" }}
-        >
-          {posts.map((p, index) => {
-            // numero pagina corrente
-            const pageNumber = index + 1
+        <>
+          <DiarioPdf posts={posts} />
+          <div id="diary-wrapper">
+            <HTMLFlipBook
+              key={pageWidth + "-" + posts.length}
+              width={pageWidth}
+              mobileScrollSupport={true}
+              height={700}
+              minWidth={300}
+              minHeight={400}
+              maxHeight={1200}
+              className="diary-book"
+              style={{ margin: "0 auto" }}
+            >
+              {posts.map((p, index) => {
+                // numero pagina corrente
+                const pageNumber = index + 1
 
-            return (
-              <div
-                key={p.id}
-                className="page-background diary-page-size px-5 py-3 diary-page d-flex flex-column"
-              >
-                <h2 className="handwritten mb-3 fs-2">{p.titolo}</h2>
+                return (
+                  <div
+                    key={p.id}
+                    className="page-background diary-page-size px-5 py-3 diary-page d-flex flex-column"
+                  >
+                    <h2 className="handwritten mb-3 fs-2">{p.titolo}</h2>
 
-                <Card className="shadow-sm my-1 card-diario">
-                  {p.fotoUrl ? (
-                    <Card.Img
-                      src={p.fotoUrl}
-                      alt={p.titolo}
-                      className="img-fluid"
-                    />
-                  ) : (
-                    <div className="placeholder-foto d-flex flex-column justify-content-center align-items-center">
-                      <p className="fs-4 mb-1">
-                        Non hai ancora caricato un'immagine
-                      </p>
-                      <p className="text-muted">Aggiungi un ricordo visivo</p>
+                    <Card className="shadow-sm my-1 card-diario">
+                      {p.fotoUrl ? (
+                        <Card.Img
+                          src={p.fotoUrl}
+                          alt={p.titolo}
+                          className="img-fluid"
+                        />
+                      ) : (
+                        <div className="placeholder-foto d-flex flex-column justify-content-center align-items-center">
+                          <p className="fs-4 mb-1">
+                            Non hai ancora caricato un'immagine
+                          </p>
+                          <p className="text-muted">
+                            Aggiungi un ricordo visivo
+                          </p>
+                        </div>
+                      )}
+                    </Card>
+
+                    <p className="diary-text">{p.contenuto}</p>
+
+                    {/* FOOTER PAGINA */}
+                    <div className="diary-footer mt-3">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <small className="text-muted">
+                          Pagina scritta il giorno{" "}
+                          {new Date(p.dataCreazione).toLocaleDateString()}
+                        </small>
+
+                        <small className="text-muted">
+                          Pagina {pageNumber} di {totalPages}
+                        </small>
+                      </div>
+
+                      <div className="text-start mt-2">
+                        <Button
+                          variant="warning"
+                          onClick={() => {
+                            setSelectedPost(p)
+                            setShowEdit(true)
+                          }}
+                          className="me-3"
+                        >
+                          Riscrivi
+                        </Button>
+                        <Button
+                          variant="danger"
+                          onClick={() => {
+                            setSelectedPost(p)
+                            setShowDelete(true)
+                          }}
+                        >
+                          Cancella
+                        </Button>
+                      </div>
                     </div>
-                  )}
-                </Card>
-
-                <p className="diary-text">{p.contenuto}</p>
-
-                {/* FOOTER PAGINA */}
-                <div className="diary-footer mt-3">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <small className="text-muted">
-                      Pagina scritta il giorno{" "}
-                      {new Date(p.dataCreazione).toLocaleDateString()}
-                    </small>
-
-                    <small className="text-muted">
-                      Pagina {pageNumber} di {totalPages}
-                    </small>
                   </div>
-
-                  <div className="text-start mt-2">
-                    <Button
-                      variant="warning"
-                      onClick={() => {
-                        setSelectedPost(p)
-                        setShowEdit(true)
-                      }}
-                      className="me-3"
-                    >
-                      Riscrivi
-                    </Button>
-                    <Button
-                      variant="danger"
-                      onClick={() => {
-                        setSelectedPost(p)
-                        setShowDelete(true)
-                      }}
-                    >
-                      Cancella
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )
-          })}
-        </HTMLFlipBook>
+                )
+              })}
+            </HTMLFlipBook>
+          </div>
+        </>
       )}
 
       {/* Modale modifica */}

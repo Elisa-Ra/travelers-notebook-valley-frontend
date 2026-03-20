@@ -4,6 +4,8 @@
   background-size: cover;
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  min-height: 100vh;
+  display: block;
 }
 .page-background-home {
   background: url("/page-bg.svg");
@@ -196,6 +198,31 @@
 }
 /* HOME */
 
+/* svg diario */
+.diario {
+  width: 200px;
+  height: auto;
+}
+.swing {
+  animation: swing 2s ease-in-out infinite;
+}
+.diario:hover {
+  transform: translateY(-4px);
+  transform: rotate(20deg);
+  animation: swing 2s ease-in-out infinite;
+}
+@keyframes swing {
+  0% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+  100% {
+    transform: rotate(-10deg);
+  }
+}
+
 /* Container cliccabili */
 .blockquote {
   border-radius: 12px;
@@ -313,8 +340,7 @@
 }
 /* card che contiene l'immagine del monumento */
 .card-monumento {
-  height: 350px;
-  max-width: 600px;
+  max-width: 500px;
   margin: 0 auto;
   border-radius: 12px;
   overflow: hidden;
@@ -325,7 +351,7 @@
 .img-fluid {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   flex: 1;
 }
 
@@ -339,7 +365,7 @@
   text-align: center;
   padding: 20px;
   color: #6b5e52;
-  display: flex; /* per centrare */
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -357,6 +383,7 @@
 @media (max-width: 768px) {
   .card-monumento {
     max-width: 100%;
+    max-height: 300px;
   }
 }
 
@@ -459,6 +486,12 @@
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.15) !important;
   overflow-x: hidden;
   overflow-y: hidden !important;
+}
+
+/* per nascondere i pulsanti quando si scarica il pdf del diario */
+.diary-print-mode .btn-warning,
+.diary-print-mode .btn-danger {
+  display: none !important;
 }
 
 /* Tablet */
