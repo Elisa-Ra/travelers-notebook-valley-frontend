@@ -6,6 +6,7 @@ import tempioZeus from "../assets/img/wzeus.jpg"
 import tempioConcordia from "../assets/img/bg-tempio.jpg"
 import tempioErcole from "../assets/img/weracle.jpg"
 import { Link } from "react-router-dom"
+import diario from "../assets/img/diario.svg"
 
 export default function Home() {
   // POLAROID
@@ -71,11 +72,7 @@ export default function Home() {
             </Col>
 
             <Col xs={12} md={3} className="text-center">
-              <img
-                src="src\assets\img\diario.svg"
-                alt="Diario"
-                className="diario"
-              />
+              <img src={diario} alt="Diario" className="diario" />
             </Col>
           </Row>
         </Link>
