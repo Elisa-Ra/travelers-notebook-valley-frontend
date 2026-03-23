@@ -6,7 +6,7 @@ import Error from "./Error"
 import Istruzioni from "./Istruzioni"
 import Pagina from "./PostAggiungi"
 import Posts from "./PostDiario"
-import API_URL from "../api"
+import { API_URL } from "../api"
 
 export default function Profilo() {
   const navigate = useNavigate()
