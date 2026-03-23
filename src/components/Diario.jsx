@@ -6,6 +6,7 @@ import Error from "./Error"
 import Istruzioni from "./Istruzioni"
 import Pagina from "./PostAggiungi"
 import Posts from "./PostDiario"
+import API_URL from "../api"
 
 export default function Profilo() {
   const navigate = useNavigate()
@@ -27,7 +28,7 @@ export default function Profilo() {
 
     const fetchUser = async () => {
       try {
-        const response = await fetch("http://localhost:3001/auth/me", {
+        const response = await fetch(`${API_URL}/auth/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

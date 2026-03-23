@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { Modal } from "react-bootstrap"
+import { API_URL } from "../api"
 
 export default function ProfiloModifica({ show, onHide, user, onSave }) {
   const [editedUsername, setEditedUsername] = useState("")
@@ -30,7 +31,7 @@ export default function ProfiloModifica({ show, onHide, user, onSave }) {
       const formData = new FormData()
       formData.append("file", fileAvatar)
 
-      await fetch("http://localhost:3001/utenti/me/avatar", {
+      await fetch(`${API_URL}/utenti/me/avatar`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
@@ -38,7 +39,7 @@ export default function ProfiloModifica({ show, onHide, user, onSave }) {
     }
 
     // modifico l'username e l'email
-    const response = await fetch("http://localhost:3001/utenti/me", {
+    const response = await fetch(`${API_URL}/utenti/me`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { ListGroup, ProgressBar } from "react-bootstrap"
 import { BsAwardFill } from "react-icons/bs"
+import { API_URL } from "../api"
 
 // COMPONENTE CHE MOSTRA LE MEDAGLIE POSSEDUTE DALL'UTENTE
 export default function ProfiloMedaglie() {
@@ -12,7 +13,7 @@ export default function ProfiloMedaglie() {
   // Recupero le medaglie dell’utente
   useEffect(() => {
     const fetchMedaglie = async () => {
-      const res = await fetch("http://localhost:3001/medaglie/me/medaglie", {
+      const res = await fetch(`${API_URL}/medaglie/me/medaglie`, {
         headers: { Authorization: `Bearer ${token}` },
       })
 
@@ -27,7 +28,7 @@ export default function ProfiloMedaglie() {
   // Recupero il numero totale di medaglie
   useEffect(() => {
     const fetchTotal = async () => {
-      const res = await fetch("http://localhost:3001/medaglie", {
+      const res = await fetch(`${API_URL}/medaglie`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       if (res.ok) {

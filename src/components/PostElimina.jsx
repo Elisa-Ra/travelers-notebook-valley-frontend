@@ -1,11 +1,12 @@
 import { Modal, Button } from "react-bootstrap"
+import { API_URL } from "../api"
 
 export default function PostElimina({ show, onHide, post, onDelete }) {
   const token = localStorage.getItem("token")
   if (!post) return null
 
   const handleDelete = async () => {
-    await fetch(`http://localhost:3001/posts/${post.id}`, {
+    await fetch(`${API_URL}/posts/${post.id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     })

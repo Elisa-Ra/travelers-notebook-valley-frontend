@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom"
 import Form from "react-bootstrap/Form"
 import Loading from "./Loading"
 import Error from "./Error"
-import { Col, Container, Row } from "react-bootstrap"
+import { Container } from "react-bootstrap"
+import { API_URL } from "../api"
 
 export default function Register() {
   const navigate = useNavigate()
@@ -34,7 +35,7 @@ export default function Register() {
 
     // fetch sull'endpoint di registrazione dell'utente
     try {
-      const response = await fetch("http://localhost:3001/auth/register", {
+      const response = await fetch(`${API_URL}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

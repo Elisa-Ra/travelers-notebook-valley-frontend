@@ -7,6 +7,7 @@ import Medaglie from "../components/ProfiloMedaglie"
 import ProfiloModifica from "../components/ProfiloModifica"
 import MyAlert from "./MyAlert"
 import CollapseInfo from "./CollapseInfo"
+import { API_URL } from "../api"
 
 export default function Profilo() {
   const navigate = useNavigate()
@@ -32,7 +33,7 @@ export default function Profilo() {
 
     const fetchUser = async () => {
       try {
-        const response = await fetch("http://localhost:3001/auth/me", {
+        const response = await fetch(`${API_URL}/auth/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

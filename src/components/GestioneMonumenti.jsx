@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Form, Button, ListGroup, Modal, Container } from "react-bootstrap"
 import MyAlert from "./MyAlert"
 import PostChart from "./PostChart"
+import { API_URL } from "../api"
 
 // PAGINA PER LA GESTIONE DEI MONUMENTI (SOLO ADMIN)
 export default function GestioneMonumenti() {
@@ -43,7 +44,7 @@ export default function GestioneMonumenti() {
   useEffect(() => {
     const fetchMonumenti = async () => {
       try {
-        const res = await fetch("http://localhost:3001/monumento")
+        const res = await fetch(`${API_URL}/monumento`)
         if (!res.ok) {
           console.error("Errore nel caricamento monumenti:", res.status)
           return
@@ -57,7 +58,7 @@ export default function GestioneMonumenti() {
     // GET delle categorie
     const fetchCategorie = async () => {
       try {
-        const res = await fetch("http://localhost:3001/categorie", {
+        const res = await fetch(`${API_URL}/categorie`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -91,7 +92,7 @@ export default function GestioneMonumenti() {
     }
 
     // Post del monumento
-    const res = await fetch("http://localhost:3001/monumento", {
+    const res = await fetch(`${API_URL}/monumento`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -112,14 +113,11 @@ export default function GestioneMonumenti() {
       const formData = new FormData()
       formData.append("file", foto)
 
-      const uploadRes = await fetch(
-        `http://localhost:3001/monumento/${created.id}/foto`,
-        {
-          method: "POST",
-          headers: { Authorization: `Bearer ${token}` },
-          body: formData,
-        },
-      )
+      const uploadRes = await fetch(`${API_URL}/monumento/${created.id}/foto`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      })
       // se il caricamento va a buon fine modifico la foto con quella nuova, sennò lascio quella vecchia
       if (uploadRes.ok) {
         const updated = await uploadRes.json()
@@ -143,7 +141,7 @@ export default function GestioneMonumenti() {
 
   // ELIMINO UN MONUMENTO
   const deleteMonumento = async (id) => {
-    const res = await fetch(`http://localhost:3001/monumento/${id}`, {
+    const res = await fetch(`${API_URL}/monumento/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -175,7 +173,7 @@ export default function GestioneMonumenti() {
     }
 
     // modifico
-    const res = await fetch(`http://localhost:3001/monumento/${editData.id}`, {
+    const res = await fetch(`${API_URL}/monumento/${editData.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -200,7 +198,7 @@ export default function GestioneMonumenti() {
       formData.append("file", newFoto)
 
       const uploadRes = await fetch(
-        `http://localhost:3001/monumento/${editData.id}/foto`,
+        `${API_URL}/monumento/${editData.id}/foto`,
         {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { Form, Button, Collapse } from "react-bootstrap"
 import MyAlert from "./MyAlert"
 import { BsVectorPen } from "react-icons/bs"
+import { API_URL } from "../api"
 
 // COMPONENTE PER SCRIVERE UN NUOVO POST (PAGINA) NEL DIARIO DELL'UTENTE
 export default function PostAggiungi({ onPostCreated }) {
@@ -27,7 +28,7 @@ export default function PostAggiungi({ onPostCreated }) {
   // recupero la lista di monumenti
   useEffect(() => {
     const fetchMonumenti = async () => {
-      const res = await fetch("http://localhost:3001/monumento", {
+      const res = await fetch(`${API_URL}/monumento`, {
         headers: { Authorization: `Bearer ${token}` },
       })
 
@@ -50,7 +51,7 @@ export default function PostAggiungi({ onPostCreated }) {
       idMonumento,
     }
 
-    const res = await fetch("http://localhost:3001/posts", {
+    const res = await fetch(`${API_URL}/posts`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -74,7 +75,7 @@ export default function PostAggiungi({ onPostCreated }) {
       const formData = new FormData()
       formData.append("file", foto)
 
-      await fetch(`http://localhost:3001/posts/${created.id}/foto`, {
+      await fetch(`${API_URL}/posts/${created.id}/foto`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,

@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form"
 import Loading from "./Loading"
 import ErrorMessage from "./Error"
 import { Container } from "react-bootstrap"
+import { API_URL } from "../api"
 
 export default function Login() {
   const navigate = useNavigate()
@@ -28,7 +29,7 @@ export default function Login() {
 
     // chiamata di login al backend
     try {
-      const res = await fetch("http://localhost:3001/auth/login", {
+      const res = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -42,7 +43,7 @@ export default function Login() {
 
       // Aggiorno redux con il token di accesso
       dispatch(loginSuccess({ token: data.accessToken }))
-      const meRes = await fetch("http://localhost:3001/utenti/me", {
+      const meRes = await fetch(`${API_URL}/utenti/me`, {
         headers: {
           Authorization: `Bearer ${data.accessToken}`,
         },

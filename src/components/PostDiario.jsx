@@ -5,6 +5,7 @@ import EliminaPost from "./PostElimina"
 import HTMLFlipBook from "react-pageflip"
 import MyAlert from "./MyAlert"
 import DiarioPdf from "./DiarioPDF"
+import { API_URL } from "../api"
 
 export default function PostDiario({ refresh }) {
   const [posts, setPosts] = useState([])
@@ -43,7 +44,7 @@ export default function PostDiario({ refresh }) {
   // fetch post
   useEffect(() => {
     const fetchPosts = async () => {
-      const res = await fetch("http://localhost:3001/posts/me", {
+      const res = await fetch(`${API_URL}/posts/me`, {
         headers: { Authorization: `Bearer ${token}` },
       })
 

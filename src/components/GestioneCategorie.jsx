@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Form, Button, ListGroup } from "react-bootstrap"
+import { API_URL } from "../api"
 
 // PAGINA PER LA GESTIONE DELLE CATEGORIE (SOLO ADMIN)
 export default function ManageCategories() {
@@ -20,7 +21,7 @@ export default function ManageCategories() {
   useEffect(() => {
     const fetchCategorie = async () => {
       try {
-        const res = await fetch("http://localhost:3001/categorie", {
+        const res = await fetch(`${API_URL}/categorie`, {
           headers: { Authorization: `Bearer ${token}` },
         })
 
@@ -39,7 +40,7 @@ export default function ManageCategories() {
     e.preventDefault()
 
     try {
-      const res = await fetch("http://localhost:3001/categorie", {
+      const res = await fetch(`${API_URL}/categorie`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -64,7 +65,7 @@ export default function ManageCategories() {
   // ELIMINO UNA CATEGORIA
   const deleteCategoria = async (id) => {
     try {
-      const res = await fetch(`http://localhost:3001/categorie/${id}`, {
+      const res = await fetch(`${API_URL}/categorie/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -81,7 +82,7 @@ export default function ManageCategories() {
   // MODIFICO UNA CATEGORIA
   const updateCategoria = async (id) => {
     try {
-      const res = await fetch(`http://localhost:3001/categorie/${id}`, {
+      const res = await fetch(`${API_URL}/categorie/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

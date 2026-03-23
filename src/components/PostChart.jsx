@@ -8,6 +8,7 @@ import {
   CartesianGrid,
 } from "recharts"
 import { useEffect, useState } from "react"
+import { API_URL } from "../api"
 
 export default function PostChart() {
   const [stats, setStats] = useState([])
@@ -15,7 +16,7 @@ export default function PostChart() {
 
   useEffect(() => {
     const fetchStats = async () => {
-      const res = await fetch("http://localhost:3001/posts/stats/monumenti", {
+      const res = await fetch(`${API_URL}/posts/stats/monumenti`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

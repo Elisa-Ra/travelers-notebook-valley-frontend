@@ -9,7 +9,7 @@ import Profilo from "./components/Profile"
 import Esplora from "./components/Esplora"
 import Admin from "./components/Admin"
 import Diario from "./components/Diario.jsx"
-
+import { API_URL } from "./api.js"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { setUser, logout } from "./redux/store/authSlice"
@@ -26,7 +26,7 @@ function App() {
     // se il token c'è, viene controllato per restituire l'utente
     const fetchUser = async () => {
       try {
-        const res = await fetch("http://localhost:3001/auth/me", {
+        const res = await fetch(`${API_URL}/auth/me`, {
           headers: { Authorization: `Bearer ${token}` },
         })
 

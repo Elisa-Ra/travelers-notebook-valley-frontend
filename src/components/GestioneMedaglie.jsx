@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Form, Button, ListGroup, Modal } from "react-bootstrap"
 import MyAlert from "./MyAlert"
 import MyLoading from "./Loading"
+import { API_URL } from "../api"
 
 export default function ManageMedaglie() {
   const [medaglie, setMedaglie] = useState([])
@@ -39,7 +40,7 @@ export default function ManageMedaglie() {
   // GET medaglie
   useEffect(() => {
     const fetchMedaglie = async () => {
-      const res = await fetch("http://localhost:3001/medaglie", {
+      const res = await fetch(`${API_URL}/medaglie`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -57,7 +58,7 @@ export default function ManageMedaglie() {
   // GET monumenti
   useEffect(() => {
     const fetchMonumenti = async () => {
-      const res = await fetch("http://localhost:3001/monumento")
+      const res = await fetch(`${API_URL}/monumento`)
       if (res.ok) {
         const data = await res.json()
         setMonumenti(data)
@@ -73,7 +74,7 @@ export default function ManageMedaglie() {
     // creo la medaglia senza icona inizialmente
     const dto = { nome, descrizione, icona: "", idMonumento }
 
-    const res = await fetch("http://localhost:3001/medaglie", {
+    const res = await fetch(`${API_URL}/medaglie`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -91,16 +92,13 @@ export default function ManageMedaglie() {
       const formData = new FormData()
       formData.append("file", icona)
 
-      const uploadRes = await fetch(
-        `http://localhost:3001/medaglie/${created.id}/icona`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
+      const uploadRes = await fetch(`${API_URL}/medaglie/${created.id}/icona`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      )
+        body: formData,
+      })
 
       if (uploadRes.ok) {
         const updated = await uploadRes.json()
@@ -145,7 +143,7 @@ export default function ManageMedaglie() {
       }
 
       // Aggiorno i dati testuali
-      const res = await fetch(`http://localhost:3001/medaglie/${editData.id}`, {
+      const res = await fetch(`${API_URL}/medaglie/${editData.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -167,7 +165,7 @@ export default function ManageMedaglie() {
         formData.append("file", editData.newIcon)
 
         const uploadRes = await fetch(
-          `http://localhost:3001/medaglie/${editData.id}/icona`,
+          `${API_URL}/medaglie/${editData.id}/icona`,
           {
             method: "POST",
             headers: {
@@ -196,7 +194,7 @@ export default function ManageMedaglie() {
 
   // ELIMINA medaglia
   const deleteMedaglia = async (id) => {
-    const res = await fetch(`http://localhost:3001/medaglie/${id}`, {
+    const res = await fetch(`${API_URL}/medaglie/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     })

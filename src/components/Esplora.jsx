@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Container, Row, Col, ListGroup, Card, Badge } from "react-bootstrap"
 import { BsCompassFill } from "react-icons/bs"
+import { API_URL } from "../api"
 
 export default function Esplora() {
   const [monumenti, setMonumenti] = useState([])
@@ -14,7 +15,7 @@ export default function Esplora() {
       setIsError(false)
 
       try {
-        const res = await fetch("http://localhost:3001/monumento")
+        const res = await fetch(`${API_URL}/monumento`)
         if (!res.ok)
           throw new Error(
             "Ops, si è verificato un errore nel caricamento dei monumenti!",

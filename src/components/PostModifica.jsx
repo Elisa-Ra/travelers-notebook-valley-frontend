@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { Modal, Form } from "react-bootstrap"
+import { API_URL } from "../api"
 
 export default function PostModifica({ show, onHide, post, onSave }) {
   const [titolo, setTitolo] = useState("")
@@ -19,7 +20,7 @@ export default function PostModifica({ show, onHide, post, onSave }) {
     e.preventDefault()
 
     // aggiorna testo
-    await fetch(`http://localhost:3001/posts/${post.id}`, {
+    await fetch(`${API_URL}/posts/${post.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -37,7 +38,7 @@ export default function PostModifica({ show, onHide, post, onSave }) {
       const fd = new FormData()
       fd.append("file", fotoFile)
 
-      await fetch(`http://localhost:3001/posts/${post.id}/foto`, {
+      await fetch(`${API_URL}/posts/${post.id}/foto`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: fd,
