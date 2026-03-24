@@ -512,6 +512,15 @@
   }
 }
 /* PAGINA */
+@media (max-width: 768px) {
+  .diary-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100%;
+    overflow-y: visible;
+  }
+}
 /* Desktop */
 .diary-page-size {
   width: 100% !important;

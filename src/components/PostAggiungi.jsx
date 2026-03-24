@@ -3,7 +3,7 @@ import { Form, Button, Collapse } from "react-bootstrap"
 import MyAlert from "./MyAlert"
 import { BsVectorPen } from "react-icons/bs"
 import { API_URL } from "../api"
-
+import MyLoading from "./Loading"
 // COMPONENTE PER SCRIVERE UN NUOVO POST (PAGINA) NEL DIARIO DELL'UTENTE
 export default function PostAggiungi({ onPostCreated }) {
   // creazione post
@@ -15,6 +15,8 @@ export default function PostAggiungi({ onPostCreated }) {
 
   const [alertMessage, setAlertMessage] = useState("")
   const [alertVariant, setAlertVariant] = useState("success")
+
+  const [loading, setLoading] = useState(false)
 
   const [open, setOpen] = useState(false)
 
@@ -44,6 +46,7 @@ export default function PostAggiungi({ onPostCreated }) {
   // Creazione di nuovo post (pagina)
   const createPost = async (e) => {
     e.preventDefault()
+    setLoading(true)
 
     const dto = {
       titolo,
@@ -65,6 +68,7 @@ export default function PostAggiungi({ onPostCreated }) {
         "Errore nella scrittura della pagina, riprova più tardi.",
         "danger",
       )
+      setLoading(false)
       return
     }
 
@@ -81,7 +85,7 @@ export default function PostAggiungi({ onPostCreated }) {
         body: formData,
       })
     }
-
+    setLoading(false)
     showAlert("La pagina è stata aggiunta al tuo diario!")
     onPostCreated()
 
@@ -99,6 +103,7 @@ export default function PostAggiungi({ onPostCreated }) {
         variant={alertVariant}
         onClose={() => setAlertMessage("")}
       />
+      {loading && <MyLoading />}
 
       {/* Bottone per aprire/chiudere il form */}
       <div className="d-flex justify-content-center mb-3 ">

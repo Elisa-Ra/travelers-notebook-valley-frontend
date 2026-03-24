@@ -65,12 +65,13 @@ export default function PostDiario({ refresh }) {
   }
 
   return (
-    <Container fluid className="py-1 mb-4">
+    <Container className="py-1 mb-4 px-0">
       <MyAlert
         message={alertMessage}
         variant={alertVariant}
         onClose={() => setAlertMessage("")}
       />
+
       {posts.length === 0 && (
         <p className="text-muted text-center">
           Le pagine sono ancora vuote... Scrivi la prima pagina del tuo diario!
@@ -80,7 +81,7 @@ export default function PostDiario({ refresh }) {
       {posts.length > 0 && (
         <>
           <DiarioPdf posts={posts} />
-          <div id="diary-wrapper">
+          <div id="diary-wrapper" className="">
             <HTMLFlipBook
               key={pageWidth + "-" + posts.length}
               width={pageWidth}
@@ -99,7 +100,7 @@ export default function PostDiario({ refresh }) {
                 return (
                   <div
                     key={p.id}
-                    className="page-background diary-page-size px-5 py-3 diary-page d-flex flex-column"
+                    className="page-background diary-page-size px-3 py-3 diary-page d-flex flex-column"
                   >
                     <h2 className="handwritten mb-3 fs-2">{p.titolo}</h2>
 
@@ -122,7 +123,7 @@ export default function PostDiario({ refresh }) {
                       )}
                     </Card>
 
-                    <p className="diary-text">{p.contenuto}</p>
+                    <p className="diary-text mt-2">{p.contenuto}</p>
 
                     {/* FOOTER PAGINA */}
                     <div className="diary-footer mt-3">

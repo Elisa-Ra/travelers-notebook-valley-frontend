@@ -4,11 +4,11 @@ import { Container, Row, Col } from "react-bootstrap"
 import Loading from "./Loading"
 import Error from "./Error"
 import Istruzioni from "./Istruzioni"
-import Pagina from "./PostAggiungi"
+import PostAggiungi from "./PostAggiungi"
 import Posts from "./PostDiario"
 import { API_URL } from "../api"
 
-export default function Profilo() {
+export default function Diario() {
   const navigate = useNavigate()
 
   const [user, setUser] = useState(null)
@@ -70,7 +70,7 @@ export default function Profilo() {
             {/* Istruzioni sul diario */}
             <Istruzioni />
             {/* Form per aggiungere un post (pagina) */}
-            <Pagina
+            <PostAggiungi
               user={user}
               onPostCreated={() => setRefreshPosts(!refreshPosts)}
             />
