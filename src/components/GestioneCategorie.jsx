@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Form, Button, ListGroup } from "react-bootstrap"
 import { API_URL } from "../api"
+import ModalDelete from "./ModalDelete"
 
 // PAGINA PER LA GESTIONE DELLE CATEGORIE (SOLO ADMIN)
 export default function ManageCategories() {
@@ -13,6 +14,10 @@ export default function ManageCategories() {
   const [editingId, setEditingId] = useState(null)
   // nuovo valore che assume la categoria durante la modifica
   const [editingValue, setEditingValue] = useState("")
+
+  // per il modale di eliminazione
+  const [showDelete, setShowDelete] = useState(false)
+  const [deleteId, setDeleteId] = useState(null)
 
   // recupero il token dal localStorage
   const token = localStorage.getItem("token")
@@ -63,6 +68,17 @@ export default function ManageCategories() {
   }
 
   // ELIMINO UNA CATEGORIA
+  // modale di eliminazione medaglia
+  const askDelete = (id) => {
+    setDeleteId(id)
+    setShowDelete(true)
+  }
+
+  const confirmDelete = async () => {
+    await deleteCategoria(deleteId)
+    setShowDelete(false)
+    setDeleteId(null)
+  }
   const deleteCategoria = async (id) => {
     try {
       const res = await fetch(`${API_URL}/categorie/${id}`, {
@@ -172,7 +188,7 @@ export default function ManageCategories() {
               <Button
                 className="btn-sm "
                 variant="danger"
-                onClick={() => deleteCategoria(cat.id)}
+                onClick={() => askDelete(cat.id)}
               >
                 Elimina
               </Button>
@@ -180,6 +196,12 @@ export default function ManageCategories() {
           </ListGroup.Item>
         ))}
       </ListGroup>
+      <ModalDelete
+        show={showDelete}
+        onClose={() => setShowDelete(false)}
+        onConfirm={confirmDelete}
+        itemName="questa categoria"
+      />
     </div>
   )
 }

@@ -3,6 +3,7 @@ import { Form, Button, ListGroup, Modal } from "react-bootstrap"
 import MyAlert from "./MyAlert"
 import MyLoading from "./Loading"
 import { API_URL } from "../api"
+import ModalDelete from "./ModalDelete"
 
 export default function ManageMedaglie() {
   const [medaglie, setMedaglie] = useState([])
@@ -29,6 +30,9 @@ export default function ManageMedaglie() {
   const [alertVariant, setAlertVariant] = useState("success")
   // loading
   const [loading, setLoading] = useState(false)
+  // per il modale di eliminazione
+  const [showDelete, setShowDelete] = useState(false)
+  const [deleteId, setDeleteId] = useState(null)
 
   const token = localStorage.getItem("token")
 
@@ -70,53 +74,62 @@ export default function ManageMedaglie() {
   // CREAZIONE medaglia
   const createMedaglia = async (e) => {
     e.preventDefault()
+    setLoading(true) // ← attivo il loader
 
-    // creo la medaglia senza icona inizialmente
-    const dto = { nome, descrizione, icona: "", idMonumento }
+    try {
+      const dto = { nome, descrizione, icona: "", idMonumento }
 
-    const res = await fetch(`${API_URL}/medaglie`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(dto),
-    })
-
-    if (!res.ok) return
-
-    const created = await res.json()
-
-    // Se viene caricato un file, aggiungo l'icona
-    if (icona) {
-      const formData = new FormData()
-      formData.append("file", icona)
-
-      const uploadRes = await fetch(`${API_URL}/medaglie/${created.id}/icona`, {
+      const res = await fetch(`${API_URL}/medaglie`, {
         method: "POST",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: formData,
+        body: JSON.stringify(dto),
       })
 
-      if (uploadRes.ok) {
-        const updated = await uploadRes.json()
-        // aggiorno la lista delle medaglie con la nuova icona
-        setMedaglie((prev) => [...prev, updated])
-        showAlert("La medaglia è stata creata con successo!")
+      if (!res.ok) {
+        showAlert("Errore durante la creazione", "danger")
+        setLoading(false)
+        return
       }
-    } else {
-      // se non viene caricato un file, salvo la medaglia base (senza icona)
-      setMedaglie((prev) => [...prev, created])
-      showAlert("La medaglia è stata creata!")
+
+      const created = await res.json()
+
+      // Se viene caricata un'icona
+      if (icona) {
+        const formData = new FormData()
+        formData.append("file", icona)
+
+        const uploadRes = await fetch(
+          `${API_URL}/medaglie/${created.id}/icona`,
+          {
+            method: "POST",
+            headers: { Authorization: `Bearer ${token}` },
+            body: formData,
+          },
+        )
+
+        if (uploadRes.ok) {
+          const updated = await uploadRes.json()
+          setMedaglie((prev) => [...prev, updated])
+          showAlert("La medaglia è stata creata con successo!")
+        }
+      } else {
+        setMedaglie((prev) => [...prev, created])
+        showAlert("La medaglia è stata creata!")
+      }
+
+      // reset campi
+      setNome("")
+      setDescrizione("")
+      setIcona(null)
+      e.target.reset()
+    } catch {
+      showAlert("Errore durante la creazione", "danger")
     }
 
-    // resetto i campi
-    setNome("")
-    setDescrizione("")
-    setIcona(null)
-    e.target.reset()
+    setLoading(false) // ← disattivo il loader
   }
 
   // funzione per aprire il modale di modifica
@@ -152,12 +165,16 @@ export default function ManageMedaglie() {
         body: JSON.stringify(dto),
       })
 
-      if (res.ok) {
-        const updated = await res.json()
-        setMedaglie((prev) =>
-          prev.map((m) => (m.id === updated.id ? updated : m)),
-        )
+      if (!res.ok) {
+        showAlert("Errore durante l'aggiornamento", "danger")
+        setLoading(false)
+        return
       }
+
+      const updated = await res.json()
+      setMedaglie((prev) =>
+        prev.map((m) => (m.id === updated.id ? updated : m)),
+      )
 
       // Se il nuovo file è stato caricato, modifico l'icona
       if (editData.newIcon) {
@@ -175,24 +192,40 @@ export default function ManageMedaglie() {
           },
         )
 
-        if (uploadRes.ok) {
-          const updatedIcon = await uploadRes.json()
-          // aggiorno la lista
-          setMedaglie((prev) =>
-            prev.map((m) => (m.id === updatedIcon.id ? updatedIcon : m)),
-          )
+        if (!uploadRes.ok) {
+          showAlert("Errore durante il caricamento dell'icona", "danger")
+          setLoading(false)
+          return
         }
+
+        const updatedIcon = await uploadRes.json()
+        setMedaglie((prev) =>
+          prev.map((m) => (m.id === updatedIcon.id ? updatedIcon : m)),
+        )
       }
+
       showAlert("La medaglia è stata aggiornata con successo!")
+      setShowEdit(false)
     } catch {
       showAlert("Errore durante l'aggiornamento", "danger")
     }
 
     setLoading(false)
-    setShowEdit(false)
   }
 
   // ELIMINA medaglia
+  // modale di eliminazione medaglia
+  const askDelete = (id) => {
+    setDeleteId(id)
+    setShowDelete(true)
+  }
+
+  const confirmDelete = async () => {
+    await deleteMedaglia(deleteId)
+    setShowDelete(false)
+    setDeleteId(null)
+  }
+  // eliminazione medaglia
   const deleteMedaglia = async (id) => {
     const res = await fetch(`${API_URL}/medaglie/${id}`, {
       method: "DELETE",
@@ -212,7 +245,7 @@ export default function ManageMedaglie() {
         variant={alertVariant}
         onClose={() => setAlertMessage("")}
       />
-
+      {loading && <MyLoading />}
       <h2 className="handwritten mb-4 text-center mt-2">Gestione Medaglie</h2>
 
       {/* FORM CREAZIONE */}
@@ -285,7 +318,7 @@ export default function ManageMedaglie() {
             {/* COLONNA SINISTRA */}
             <div className="d-flex align-items-start gap-3">
               <img
-                src={m.icona}
+                src={m.icona || "/placeholder.svg"}
                 alt={m.nome}
                 style={{
                   width: "50px",
@@ -314,7 +347,7 @@ export default function ManageMedaglie() {
               <Button
                 className="btn-sm"
                 variant="danger"
-                onClick={() => deleteMedaglia(m.id)}
+                onClick={() => askDelete(m.id)}
               >
                 Elimina
               </Button>
@@ -403,6 +436,12 @@ export default function ManageMedaglie() {
           </Button>
         </Modal.Footer>
       </Modal>
+      <ModalDelete
+        show={showDelete}
+        onClose={() => setShowDelete(false)}
+        onConfirm={confirmDelete}
+        itemName="questa medaglia"
+      />
     </div>
   )
 }

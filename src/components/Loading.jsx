@@ -1,7 +1,9 @@
 import { Spinner } from "react-bootstrap"
 
 const Loading = () => (
-  <Spinner animation="border" variant="warning" className="mt-2" />
+  <div className="d-flex justify-content-center my-2">
+    <Spinner animation="border" variant="warning" />
+  </div>
 )
 
 export default Loading

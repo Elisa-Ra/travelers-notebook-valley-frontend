@@ -3,6 +3,7 @@ import { Form, Button, ListGroup, Modal, Container } from "react-bootstrap"
 import MyAlert from "./MyAlert"
 import PostChart from "./PostChart"
 import { API_URL } from "../api"
+import ModalDelete from "./ModalDelete"
 
 // PAGINA PER LA GESTIONE DEI MONUMENTI (SOLO ADMIN)
 export default function GestioneMonumenti() {
@@ -27,6 +28,10 @@ export default function GestioneMonumenti() {
     nomeCategoria: "",
   })
   const [newFoto, setNewFoto] = useState(null)
+
+  // per il modale di eliminazione
+  const [showDelete, setShowDelete] = useState(false)
+  const [deleteId, setDeleteId] = useState(null)
 
   // alert
   const [alertMessage, setAlertMessage] = useState("")
@@ -140,6 +145,17 @@ export default function GestioneMonumenti() {
   }
 
   // ELIMINO UN MONUMENTO
+  // modale di eliminazione medaglia
+  const askDelete = (id) => {
+    setDeleteId(id)
+    setShowDelete(true)
+  }
+
+  const confirmDelete = async () => {
+    await deleteMonumento(deleteId)
+    setShowDelete(false)
+    setDeleteId(null)
+  }
   const deleteMonumento = async (id) => {
     const res = await fetch(`${API_URL}/monumento/${id}`, {
       method: "DELETE",
@@ -357,7 +373,7 @@ export default function GestioneMonumenti() {
               <Button
                 className="btn-sm"
                 variant="danger"
-                onClick={() => deleteMonumento(mon.id)}
+                onClick={() => askDelete(mon.id)}
               >
                 Elimina
               </Button>
@@ -448,6 +464,12 @@ export default function GestioneMonumenti() {
           </Button>
         </Modal.Footer>
       </Modal>
+      <ModalDelete
+        show={showDelete}
+        onClose={() => setShowDelete(false)}
+        onConfirm={confirmDelete}
+        itemName="questo monumento"
+      />
     </div>
   )
 }
