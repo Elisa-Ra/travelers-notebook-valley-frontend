@@ -1,6 +1,6 @@
 # Traveller's Notebook Valley Edition - Frontend ✈️📓  
 # [Link al sito](https://travelers-notebook-valley-frontend.vercel.app/) :woman_technologist:
-# [Backend](https://github.com/Elisa-Ra/travelers-notebook-valley-backend
+# [Backend](https://github.com/Elisa-Ra/travelers-notebook-valley-backend)
 
 
 Interfaccia utente dell’applicazione **Traveller's Notebook Valley Edition**, un diario di viaggio digitale.
