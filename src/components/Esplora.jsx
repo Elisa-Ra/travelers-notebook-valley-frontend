@@ -72,7 +72,7 @@ export default function Esplora() {
         {/* COLONNA DESTRA — Dettaglio dei monumenti */}
         <Col xs={12} md={8} className="mx-auto">
           {selected ? (
-            <div className="dettaglio-monumento page-background px-1 py-3">
+            <div className="dettaglio-monumento page-background px-1 px-md-4 py-3">
               <h2 className="handwritten mb-3 fs-1">{selected.nome}</h2>
 
               <Card className="shadow-sm mb-4 mt-4 card-monumento">

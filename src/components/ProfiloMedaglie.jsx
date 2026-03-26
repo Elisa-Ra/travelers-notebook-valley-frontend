@@ -38,7 +38,7 @@ export default function ProfiloMedaglie() {
     }
 
     fetchTotal()
-  }, [])
+  }, [token])
   const percentuale =
     totalMedaglie > 0 ? (medaglie.length / totalMedaglie) * 100 : 0
   return (
@@ -82,17 +82,7 @@ export default function ProfiloMedaglie() {
               {/* Sopra */}
               <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
                 {/* nome */}
-                <div
-                  className="fw-bold text-truncate"
-                  style={{
-                    maxWidth: "100%",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
-                >
-                  {m.nome}
-                </div>
+                <div className="fw-bold text-medaglia">{m.nome}</div>
 
                 {/* data di conferimento*/}
                 {m.dataConferimento && (

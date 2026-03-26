@@ -30,6 +30,7 @@ export default function ManageMedaglie() {
   const [alertVariant, setAlertVariant] = useState("success")
   // loading
   const [loading, setLoading] = useState(false)
+  const [editLoading, setEditLoading] = useState(false)
   // per il modale di eliminazione
   const [showDelete, setShowDelete] = useState(false)
   const [deleteId, setDeleteId] = useState(null)
@@ -74,7 +75,7 @@ export default function ManageMedaglie() {
   // CREAZIONE medaglia
   const createMedaglia = async (e) => {
     e.preventDefault()
-    setLoading(true) // ← attivo il loader
+    setLoading(true) // attivo il loader
 
     try {
       const dto = { nome, descrizione, icona: "", idMonumento }
@@ -129,7 +130,7 @@ export default function ManageMedaglie() {
       showAlert("Errore durante la creazione", "danger")
     }
 
-    setLoading(false) // ← disattivo il loader
+    setLoading(false) // disattivo il loader
   }
 
   // funzione per aprire il modale di modifica
@@ -146,7 +147,7 @@ export default function ManageMedaglie() {
 
   // MODIFICA medaglia
   const updateMedaglia = async () => {
-    setLoading(true)
+    setEditLoading(true)
     try {
       const dto = {
         nome: editData.nome,
@@ -167,7 +168,7 @@ export default function ManageMedaglie() {
 
       if (!res.ok) {
         showAlert("Errore durante l'aggiornamento", "danger")
-        setLoading(false)
+        setEditLoading(false)
         return
       }
 
@@ -194,7 +195,7 @@ export default function ManageMedaglie() {
 
         if (!uploadRes.ok) {
           showAlert("Errore durante il caricamento dell'icona", "danger")
-          setLoading(false)
+          setEditLoading(false)
           return
         }
 
@@ -210,7 +211,7 @@ export default function ManageMedaglie() {
       showAlert("Errore durante l'aggiornamento", "danger")
     }
 
-    setLoading(false)
+    setEditLoading(false)
   }
 
   // ELIMINA medaglia
@@ -239,13 +240,17 @@ export default function ManageMedaglie() {
   }
 
   return (
-    <div className="page-background p-4">
+    <div className="page-background p-4 position-relative">
       <MyAlert
         message={alertMessage}
         variant={alertVariant}
         onClose={() => setAlertMessage("")}
       />
-      {loading && <MyLoading />}
+      {loading && (
+        <div className="loading-overlay">
+          <MyLoading />
+        </div>
+      )}
       <h2 className="handwritten mb-4 text-center mt-2">Gestione Medaglie</h2>
 
       {/* FORM CREAZIONE */}
@@ -358,6 +363,11 @@ export default function ManageMedaglie() {
 
       {/* MODALE DI MODIFICA */}
       <Modal show={showEdit} onHide={() => setShowEdit(false)}>
+        {editLoading && (
+          <div className="loading-overlay">
+            <MyLoading />
+          </div>
+        )}
         <Modal.Header closeButton>
           <Modal.Title>Modifica Medaglia</Modal.Title>
         </Modal.Header>

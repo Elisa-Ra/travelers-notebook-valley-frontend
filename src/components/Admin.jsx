@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { Container, Row, Col, ListGroup, Tabs, Tab } from "react-bootstrap"
+import { Container, Row, Col, Tabs, Tab } from "react-bootstrap"
 import Loading from "../components/Loading"
 import Error from "../components/Error"
 import Categorie from "./GestioneCategorie"

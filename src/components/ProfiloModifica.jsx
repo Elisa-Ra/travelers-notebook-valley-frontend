@@ -1,16 +1,17 @@
 import { useState, useEffect } from "react"
 import { Modal } from "react-bootstrap"
 import { API_URL } from "../api"
+import Loading from "./Loading"
 
 export default function ProfiloModifica({ show, onHide, user, onSave }) {
   const [editedUsername, setEditedUsername] = useState("")
   const [editedEmail, setEditedEmail] = useState("")
   const [fileAvatar, setFileAvatar] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   // quando viene aperto il modale, i campi vengono riempiti con i dati dell'utente
   useEffect(() => {
     if (show && user) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setEditedUsername(user.username)
       setEditedEmail(user.email)
       setFileAvatar(null)
@@ -26,40 +27,53 @@ export default function ProfiloModifica({ show, onHide, user, onSave }) {
   const handleSave = async () => {
     const token = localStorage.getItem("token")
 
-    // modifico l'avatar se è stato caricato un file
-    if (fileAvatar) {
-      const formData = new FormData()
-      formData.append("file", fileAvatar)
+    try {
+      setIsLoading(true)
 
-      await fetch(`${API_URL}/utenti/me/avatar`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
+      // modifico l'avatar se è stato caricato un file
+      if (fileAvatar) {
+        const formData = new FormData()
+        formData.append("file", fileAvatar)
+
+        await fetch(`${API_URL}/utenti/me/avatar`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        })
+      }
+
+      // modifico l'username e l'email
+      const response = await fetch(`${API_URL}/utenti/me`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          username: editedUsername,
+          email: editedEmail,
+        }),
       })
-    }
 
-    // modifico l'username e l'email
-    const response = await fetch(`${API_URL}/utenti/me`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        username: editedUsername,
-        email: editedEmail,
-      }),
-    })
-
-    // se tutto va bene, si salvano le modifiche e si chiude il modale
-    if (response.ok) {
-      const finalUser = await response.json()
-      onSave(finalUser)
-      onHide()
+      // se tutto va bene, si salvano le modifiche e si chiude il modale
+      if (response.ok) {
+        const finalUser = await response.json()
+        onSave(finalUser)
+        onHide()
+      }
+    } catch {
+      alert("Ops, c'è stato un errore durante la modifica del profilo.")
+    } finally {
+      setIsLoading(false)
     }
   }
   return (
     <Modal show={show} onHide={onHide} centered>
+      {isLoading && (
+        <div className="loading-overlay">
+          <Loading />
+        </div>
+      )}
       <Modal.Header closeButton>
         <Modal.Title>Modifica il tuo profilo</Modal.Title>
       </Modal.Header>

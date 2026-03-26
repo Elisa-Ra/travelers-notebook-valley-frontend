@@ -82,7 +82,12 @@
   color: #e6b800;
   font-weight: 600;
 }
-
+.text-medaglia {
+  max-width: "100%";
+  white-space: "nowrap";
+  overflow: "hidden";
+  text-overflow: "ellipsis";
+}
 .bg-oro {
   background-color: #e6b800;
   color: #4a3f35;
@@ -674,4 +679,14 @@
     border-radius: 12px;
     backdrop-filter: blur(2px);
   }
+}
+/* loader in PostModifica */
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
 }

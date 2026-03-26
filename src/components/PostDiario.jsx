@@ -174,10 +174,12 @@ export default function PostDiario({ refresh }) {
           show={showEdit}
           onHide={() => setShowEdit(false)}
           post={selectedPost}
-          onSave={({ titolo, contenuto }) => {
+          onSave={({ titolo, contenuto, fotoUrl }) => {
             setPosts((prev) =>
               prev.map((p) =>
-                p.id === selectedPost.id ? { ...p, titolo, contenuto } : p,
+                p.id === selectedPost.id
+                  ? { ...p, titolo, contenuto, fotoUrl }
+                  : p,
               ),
             )
             setAlertVariant("success")
