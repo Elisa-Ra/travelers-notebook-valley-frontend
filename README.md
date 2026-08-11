@@ -1,5 +1,5 @@
 # Traveler's Notebook Valley Edition - Frontend ✈️📓  
-# [Link al sito](https://travelers-notebook-valley-frontend.vercel.app/) :woman_technologist:
+# [Link al sito](https://travelers-notebook-valley-frontend.vercel.app/) :woman_technologist: NOTA BENE: Attualmente il servizio di backend del sito è disattivato.
 # [Backend](https://github.com/Elisa-Ra/travelers-notebook-valley-backend)
 
 
